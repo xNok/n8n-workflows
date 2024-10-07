@@ -1,0 +1,267 @@
+{
+  "active": false,
+  "connections": {
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Updated": {
+      "main": [
+        [
+          {
+            "node": "Get Existing File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Existing File": {
+      "main": [
+        [],
+        [
+          {
+            "node": "GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Added": {
+      "main": [
+        [
+          {
+            "node": "GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-10-06T21:03:09.151Z",
+  "id": "NU4iX3nCE4AxPNnc",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "xNok Website",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "728464db-7d4c-4a53-b022-c8a1dd27af94",
+      "name": "Basic LLM Chain",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.4,
+      "position": [
+        860,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "7cb780f3-10ca-42ff-92be-ce82372abf45",
+      "name": "Google Gemini Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        920,
+        480
+      ],
+      "credentials": {
+        "googlePalmApi": {
+          "id": "RVLO4hBCU3p4cxHE",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "1ca28adc-e31f-439d-b06f-6334d9469b54",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        380,
+        400
+      ],
+      "webhookId": "407c6a7f-a7c9-4cc5-a3ec-7a4c7ef9d06b"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyHour"
+            }
+          ]
+        },
+        "event": "pagedUpdatedInDatabase",
+        "databaseId": {
+          "__rl": true,
+          "value": "57fedf47-e462-48bd-a400-5adf88ecf008",
+          "mode": "list",
+          "cachedResultName": "Published Articles",
+          "cachedResultUrl": "https://www.notion.so/57fedf47e46248bda4005adf88ecf008"
+        }
+      },
+      "id": "62a6bb8a-f60a-4564-a0b2-34c77dc1f915",
+      "name": "Updated",
+      "type": "n8n-nodes-base.notionTrigger",
+      "typeVersion": 1,
+      "position": [
+        300,
+        -280
+      ],
+      "credentials": {
+        "notionApi": {
+          "id": "m0iva1LZRj7OtUio",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "xNok",
+          "mode": "list",
+          "cachedResultName": "xNok",
+          "cachedResultUrl": "https://github.com/xNok"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "xNok",
+          "mode": "list",
+          "cachedResultName": "xNok",
+          "cachedResultUrl": "https://github.com/xNok/xNok"
+        },
+        "filePath": "=website/content/english/blogs/{{ $json['Published Date'].start }}-{{ $json.Name.toSnakeCase() }}",
+        "additionalParameters": {}
+      },
+      "id": "3fd354d8-0a92-4560-807f-d8519e7a269c",
+      "name": "Get Existing File",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        440,
+        -280
+      ],
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "Li4cEp2gUZ6dGjnV",
+          "name": "GitHub account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyHour"
+            }
+          ]
+        },
+        "databaseId": {
+          "__rl": true,
+          "value": "57fedf47-e462-48bd-a400-5adf88ecf008",
+          "mode": "list",
+          "cachedResultName": "Published Articles",
+          "cachedResultUrl": "https://www.notion.so/57fedf47e46248bda4005adf88ecf008"
+        }
+      },
+      "id": "db3b63bf-039c-4981-bbee-8e80e5dad623",
+      "name": "Added",
+      "type": "n8n-nodes-base.notionTrigger",
+      "typeVersion": 1,
+      "position": [
+        300,
+        -40
+      ],
+      "credentials": {
+        "notionApi": {
+          "id": "m0iva1LZRj7OtUio",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "owner": {
+          "__rl": true,
+          "value": "xNok",
+          "mode": "list",
+          "cachedResultName": "xNok",
+          "cachedResultUrl": "https://github.com/xNok"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "xNok",
+          "mode": "list",
+          "cachedResultName": "xNok",
+          "cachedResultUrl": "https://github.com/xNok/xNok"
+        },
+        "filePath": "=website/content/english/blogs/{{ $json['Published Date'].start }}-{{ $json.Name.toSnakeCase() }}",
+        "fileContent": "=---\ntitle: \"{{ $json.Name }}\"\nimages:\n  - \"images/post/01.jpg\"\ndate: {{ $json['Published Date'].start }}\nurl: {{ $json.URL }}\ndraft: true\n---",
+        "commitMessage": "=feat: New Article Published - {{ $json.Name }}",
+        "additionalParameters": {
+          "branch": {
+            "branch": "test-n8n"
+          }
+        }
+      },
+      "id": "fad45905-a89a-4953-8d1f-39f8859dfb2e",
+      "name": "GitHub",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        620,
+        -40
+      ],
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "Li4cEp2gUZ6dGjnV",
+          "name": "GitHub account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-10-07T21:22:23.000Z",
+  "versionId": "bcbf485b-4a3f-4ed1-8f4c-a487bfb88aa5"
+}
