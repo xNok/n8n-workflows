@@ -12,22 +12,16 @@
         ]
       ]
     },
-    "When chat message received": {
-      "main": [
-        [
-          {
-            "node": "Basic LLM Chain",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Updated": {
       "main": [
         [
           {
             "node": "Get Existing File",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notion",
             "type": "main",
             "index": 0
           }
@@ -56,6 +50,17 @@
           }
         ]
       ]
+    },
+    "Notion": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2024-10-06T21:03:09.151Z",
@@ -66,17 +71,6 @@
   "name": "xNok Website",
   "nodes": [
     {
-      "parameters": {},
-      "id": "728464db-7d4c-4a53-b022-c8a1dd27af94",
-      "name": "Basic LLM Chain",
-      "type": "@n8n/n8n-nodes-langchain.chainLlm",
-      "typeVersion": 1.4,
-      "position": [
-        860,
-        320
-      ]
-    },
-    {
       "parameters": {
         "options": {}
       },
@@ -85,8 +79,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        920,
-        480
+        1140,
+        -120
       ],
       "credentials": {
         "googlePalmApi": {
@@ -94,20 +88,6 @@
           "name": "Google Gemini(PaLM) Api account"
         }
       }
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "id": "1ca28adc-e31f-439d-b06f-6334d9469b54",
-      "name": "When chat message received",
-      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
-      "typeVersion": 1.1,
-      "position": [
-        380,
-        400
-      ],
-      "webhookId": "407c6a7f-a7c9-4cc5-a3ec-7a4c7ef9d06b"
     },
     {
       "parameters": {
@@ -169,7 +149,7 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        440,
+        800,
         -280
       ],
       "credentials": {
@@ -253,6 +233,47 @@
           "name": "GitHub account"
         }
       }
+    },
+    {
+      "parameters": {
+        "resource": "block",
+        "operation": "getAll",
+        "blockId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "returnAll": true,
+        "fetchNestedBlocks": true
+      },
+      "id": "cc67d73f-ade5-4417-a830-df9daf5d60b7",
+      "name": "Notion",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        620,
+        -460
+      ],
+      "credentials": {
+        "notionApi": {
+          "id": "m0iva1LZRj7OtUio",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "Using the Notion Block that is provided to you, reconstruct the Blog article it describes."
+      },
+      "id": "728464db-7d4c-4a53-b022-c8a1dd27af94",
+      "name": "Basic LLM Chain",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.4,
+      "position": [
+        1100,
+        -460
+      ]
     }
   ],
   "pinData": {},
@@ -262,6 +283,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2024-10-07T21:22:23.000Z",
-  "versionId": "bcbf485b-4a3f-4ed1-8f4c-a487bfb88aa5"
+  "updatedAt": "2024-10-13T13:49:41.000Z",
+  "versionId": "52b57535-64cb-4428-89fd-32eb0091a38f"
 }
