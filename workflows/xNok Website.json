@@ -1,22 +1,11 @@
 {
   "active": false,
   "connections": {
-    "Google Gemini Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "Basic LLM Chain",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Updated": {
+    "Edit Fields": {
       "main": [
         [
           {
-            "node": "Get Existing File",
+            "node": "GitHub",
             "type": "main",
             "index": 0
           },
@@ -28,12 +17,12 @@
         ]
       ]
     },
-    "Get Existing File": {
+    "GitHub": {
       "main": [
         [],
         [
           {
-            "node": "GitHub",
+            "node": "GitHub1",
             "type": "main",
             "index": 0
           }
@@ -44,7 +33,18 @@
       "main": [
         [
           {
-            "node": "GitHub",
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Updated": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
             "type": "main",
             "index": 0
           }
@@ -55,8 +55,30 @@
       "main": [
         [
           {
+            "node": "Summarize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize": {
+      "main": [
+        [
+          {
             "node": "Basic LLM Chain",
             "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
             "index": 0
           }
         ]
@@ -72,61 +94,44 @@
   "nodes": [
     {
       "parameters": {
-        "options": {}
-      },
-      "id": "7cb780f3-10ca-42ff-92be-ce82372abf45",
-      "name": "Google Gemini Chat Model",
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1,
-      "position": [
-        1140,
-        -120
-      ],
-      "credentials": {
-        "googlePalmApi": {
-          "id": "RVLO4hBCU3p4cxHE",
-          "name": "Google Gemini(PaLM) Api account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "pollTimes": {
-          "item": [
+        "assignments": {
+          "assignments": [
             {
-              "mode": "everyHour"
+              "id": "9eb8326a-0ad3-44f1-8636-47341bbe36cb",
+              "name": "website-content-path",
+              "value": "=website/content/english/blogs/{{ $json['Published Date'].start }}-{{ $json.Name.toSnakeCase() }}",
+              "type": "string"
+            },
+            {
+              "id": "cd3a5684-abd2-4bf8-9756-2ab4deba8b74",
+              "name": "website-content-frontmatter",
+              "value": "=title: \"{{ $json.Name }}\"\nimages:  \n- \"images/post/01.jpg\" \ndate: {{ $json['Published Date'].start }} \nurl: {{ $json.URL }} draft: true ",
+              "type": "string"
+            },
+            {
+              "id": "8f4befd3-0945-43fd-8e14-6d02aa1c3800",
+              "name": "website-content-body",
+              "value": "",
+              "type": "string"
             }
           ]
         },
-        "event": "pagedUpdatedInDatabase",
-        "databaseId": {
-          "__rl": true,
-          "value": "57fedf47-e462-48bd-a400-5adf88ecf008",
-          "mode": "list",
-          "cachedResultName": "Published Articles",
-          "cachedResultUrl": "https://www.notion.so/57fedf47e46248bda4005adf88ecf008"
-        }
+        "includeOtherFields": true,
+        "options": {}
       },
-      "id": "62a6bb8a-f60a-4564-a0b2-34c77dc1f915",
-      "name": "Updated",
-      "type": "n8n-nodes-base.notionTrigger",
-      "typeVersion": 1,
+      "id": "02177d19-36d6-456d-8b6e-6090db3ef4a8",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
       "position": [
-        300,
-        -280
-      ],
-      "credentials": {
-        "notionApi": {
-          "id": "m0iva1LZRj7OtUio",
-          "name": "Notion account"
-        }
-      }
+        440,
+        -180
+      ]
     },
     {
       "parameters": {
         "authentication": "oAuth2",
         "resource": "file",
-        "operation": "get",
         "owner": {
           "__rl": true,
           "value": "xNok",
@@ -141,17 +146,67 @@
           "cachedResultName": "xNok",
           "cachedResultUrl": "https://github.com/xNok/xNok"
         },
-        "filePath": "=website/content/english/blogs/{{ $json['Published Date'].start }}-{{ $json.Name.toSnakeCase() }}",
-        "additionalParameters": {}
+        "filePath": "={{ $json['website-content-path'] }}",
+        "fileContent": "=---\n{{ $json['website-content-frontmatter'] }}\n---\n\n{{ $json['website-content-body'] }}",
+        "commitMessage": "=feat: Article Update - {{ $json.Name }}",
+        "additionalParameters": {
+          "branch": {
+            "branch": "test-n8n"
+          }
+        }
       },
-      "id": "3fd354d8-0a92-4560-807f-d8519e7a269c",
-      "name": "Get Existing File",
+      "id": "0082406d-1aea-4401-af75-61a029f92eb4",
+      "name": "GitHub1",
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        800,
-        -280
+        1200,
+        -100
       ],
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "Li4cEp2gUZ6dGjnV",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "edit",
+        "owner": {
+          "__rl": true,
+          "value": "xNok",
+          "mode": "list",
+          "cachedResultName": "xNok",
+          "cachedResultUrl": "https://github.com/xNok"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "xNok",
+          "mode": "list",
+          "cachedResultName": "xNok",
+          "cachedResultUrl": "https://github.com/xNok/xNok"
+        },
+        "filePath": "={{ $json['website-content-path'] }}",
+        "fileContent": "=---\n{{ $json['website-content-frontmatter'] }}\n---\n\n{{ $json['website-content-body'] }}",
+        "commitMessage": "=feat: New Article Published - {{ $json.Name }}",
+        "additionalParameters": {
+          "branch": {
+            "branch": "test-n8n"
+          }
+        }
+      },
+      "id": "fad45905-a89a-4953-8d1f-39f8859dfb2e",
+      "name": "GitHub",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        760,
+        -180
+      ],
+      "alwaysOutputData": false,
       "credentials": {
         "githubOAuth2Api": {
           "id": "Li4cEp2gUZ6dGjnV",
@@ -182,7 +237,7 @@
       "type": "n8n-nodes-base.notionTrigger",
       "typeVersion": 1,
       "position": [
-        300,
+        0,
         -40
       ],
       "credentials": {
@@ -194,43 +249,34 @@
     },
     {
       "parameters": {
-        "authentication": "oAuth2",
-        "resource": "file",
-        "owner": {
-          "__rl": true,
-          "value": "xNok",
-          "mode": "list",
-          "cachedResultName": "xNok",
-          "cachedResultUrl": "https://github.com/xNok"
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyHour"
+            }
+          ]
         },
-        "repository": {
+        "event": "pagedUpdatedInDatabase",
+        "databaseId": {
           "__rl": true,
-          "value": "xNok",
+          "value": "57fedf47-e462-48bd-a400-5adf88ecf008",
           "mode": "list",
-          "cachedResultName": "xNok",
-          "cachedResultUrl": "https://github.com/xNok/xNok"
-        },
-        "filePath": "=website/content/english/blogs/{{ $json['Published Date'].start }}-{{ $json.Name.toSnakeCase() }}",
-        "fileContent": "=---\ntitle: \"{{ $json.Name }}\"\nimages:\n  - \"images/post/01.jpg\"\ndate: {{ $json['Published Date'].start }}\nurl: {{ $json.URL }}\ndraft: true\n---",
-        "commitMessage": "=feat: New Article Published - {{ $json.Name }}",
-        "additionalParameters": {
-          "branch": {
-            "branch": "test-n8n"
-          }
+          "cachedResultName": "Published Articles",
+          "cachedResultUrl": "https://www.notion.so/57fedf47e46248bda4005adf88ecf008"
         }
       },
-      "id": "fad45905-a89a-4953-8d1f-39f8859dfb2e",
-      "name": "GitHub",
-      "type": "n8n-nodes-base.github",
+      "id": "62a6bb8a-f60a-4564-a0b2-34c77dc1f915",
+      "name": "Updated",
+      "type": "n8n-nodes-base.notionTrigger",
       "typeVersion": 1,
       "position": [
-        620,
-        -40
+        0,
+        -240
       ],
       "credentials": {
-        "githubOAuth2Api": {
-          "id": "Li4cEp2gUZ6dGjnV",
-          "name": "GitHub account"
+        "notionApi": {
+          "id": "m0iva1LZRj7OtUio",
+          "name": "Notion account"
         }
       }
     },
@@ -243,16 +289,15 @@
           "value": "={{ $json.id }}",
           "mode": "id"
         },
-        "returnAll": true,
-        "fetchNestedBlocks": true
+        "returnAll": true
       },
-      "id": "cc67d73f-ade5-4417-a830-df9daf5d60b7",
+      "id": "5353874b-593b-4091-a616-96395e91588f",
       "name": "Notion",
       "type": "n8n-nodes-base.notion",
       "typeVersion": 2.2,
       "position": [
-        620,
-        -460
+        660,
+        -440
       ],
       "credentials": {
         "notionApi": {
@@ -263,16 +308,64 @@
     },
     {
       "parameters": {
-        "promptType": "define",
-        "text": "Using the Notion Block that is provided to you, reconstruct the Blog article it describes."
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "aggregation": "concatenate",
+              "field": "content",
+              "separateBy": "\n"
+            }
+          ]
+        },
+        "fieldsToSplitBy": "parent_id",
+        "options": {}
       },
-      "id": "728464db-7d4c-4a53-b022-c8a1dd27af94",
+      "id": "19f3a4dc-94fb-4485-85a0-6ea379fe0cb2",
+      "name": "Summarize",
+      "type": "n8n-nodes-base.summarize",
+      "typeVersion": 1,
+      "position": [
+        900,
+        -440
+      ]
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-pro",
+        "options": {}
+      },
+      "id": "f0113e4d-ab24-4998-ad2f-18e999dcce8c",
+      "name": "Google Gemini Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        -340
+      ],
+      "credentials": {
+        "googlePalmApi": {
+          "id": "RVLO4hBCU3p4cxHE",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "messages": {
+          "messageValues": [
+            {
+              "type": "AIMessagePromptTemplate"
+            }
+          ]
+        }
+      },
+      "id": "a2de068e-3adc-4637-88e4-8600be409b9a",
       "name": "Basic LLM Chain",
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.4,
       "position": [
-        1100,
-        -460
+        1160,
+        -520
       ]
     }
   ],
@@ -283,6 +376,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2024-10-13T13:49:41.000Z",
-  "versionId": "52b57535-64cb-4428-89fd-32eb0091a38f"
+  "updatedAt": "2024-11-23T22:36:45.000Z",
+  "versionId": "5a3ad670-393a-4dec-b01a-bc76b7607c68"
 }
