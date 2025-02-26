@@ -1,0 +1,486 @@
+{
+  "active": false,
+  "connections": {
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent - Content Editor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent - Content Editor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent - Content Editor",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub Blog Archetype": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent - Content Editor",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent - Content Editor": {
+      "main": [
+        []
+      ]
+    },
+    "GitHub List Files": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent - Content Editor",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub Create Blog Article": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent - Content Editor",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub Edit Blog Article": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent - Content Editor",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub Blog Example": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent - Content Editor",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create New Git Branch": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-02-23T21:54:14.919Z",
+  "id": "1tuqjyRTlJ3tO7lq",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Personal Blog",
+  "nodes": [
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -220,
+        200
+      ],
+      "id": "00b73f85-8c9f-4cc8-ad08-e326d5ad3f3b",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "NtlUZLNkurhNWplg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "event": "pagedUpdatedInDatabase",
+        "databaseId": {
+          "__rl": true,
+          "value": "57fedf47-e462-48bd-a400-5adf88ecf008",
+          "mode": "list",
+          "cachedResultName": "Published Articles",
+          "cachedResultUrl": "https://www.notion.so/57fedf47e46248bda4005adf88ecf008"
+        }
+      },
+      "type": "n8n-nodes-base.notionTrigger",
+      "typeVersion": 1,
+      "position": [
+        -180,
+        -120
+      ],
+      "id": "903683a2-6781-450e-90e8-5d3a8e6c736c",
+      "name": "Notion Trigger",
+      "credentials": {
+        "notionApi": {
+          "id": "WfCmw0zchSH9Yw4W",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Read The content of a notion Page by ID",
+        "resource": "block",
+        "operation": "getAll",
+        "blockId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Block', ``, 'string') }}"
+        },
+        "returnAll": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Return_All', ``, 'boolean') }}",
+        "fetchNestedBlocks": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Also_Fetch_Nested_Blocks', ``, 'boolean') }}"
+      },
+      "type": "n8n-nodes-base.notionTool",
+      "typeVersion": 2.2,
+      "position": [
+        240,
+        280
+      ],
+      "id": "263db593-d4de-4a49-abbb-7c0c8bf3e23d",
+      "name": "Notion",
+      "credentials": {
+        "notionApi": {
+          "id": "WfCmw0zchSH9Yw4W",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "GitHub Blog Archetype",
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "xNok",
+          "mode": "list",
+          "cachedResultName": "xNok",
+          "cachedResultUrl": "https://github.com/xNok"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "xNok",
+          "mode": "list",
+          "cachedResultName": "xNok",
+          "cachedResultUrl": "https://github.com/xNok/xNok"
+        },
+        "filePath": "website/archetypes/default.md",
+        "asBinaryProperty": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('As_Binary_Property', ``, 'boolean') }}",
+        "additionalParameters": {}
+      },
+      "type": "n8n-nodes-base.githubTool",
+      "typeVersion": 1,
+      "position": [
+        140,
+        280
+      ],
+      "id": "58544514-5712-4d36-a8e7-6ba8fc727e4e",
+      "name": "GitHub Blog Archetype",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "S9AffrrX7P2CgGz3",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.toJsonString() }}\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are the editor for my portfolio; your task is to update the Blog each time a new article is added to my database.\n\nUse the provided tools, such as Notion and Github, to retrieve the data you need. (You are not asked to code or implement any feature; focus on generating a good summary of what the article is about so it can be added to my portfolio).\n\nFinally end over the result to the next AI agent that is in charge of adding you content to the blog by submitting a pull-request to the owner.\n\n-------\nInstructions\n-------\n1. Fetch Blog Archetype: Get the blog template from GitHub.\n2. Check for update: Check on Github if the file exist in the folder `website/content/english/blogs` assuming it follows the naming convention below on Github and assess wheither this is a new entry or an update.\n3. Fetch Notion Data: Retrieve the complete article from Notion using the provided ID: {{ $json.id }}.\n4. Fetch Example Blog: Get the blog example to understand the expected structure\n5. Generate Hugo Page: Create/Update the content which involves summarizing the content (retrived in step 3(, adopting the proposed template (retrived in step 2), and following the style of the example (retrived in step 4).\n6. Publish to Github: Create or Update the blog entry file in `website/content/english/blogs` (name after the published date and title) and push the content.\n\n-------\nClarifications\n-------\n* file naming to make thing easy use the following convention: {data}-{title-slug}.md\n* When updating a blog entry the edit should be minimal, make sure to find what needs to ne updated. For instance the number of section should stay the same."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        220,
+        0
+      ],
+      "id": "0a0632eb-352d-4c84-a2ba-93ca7036ca09",
+      "name": "AI Agent - Content Editor"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "xNok",
+          "mode": "list",
+          "cachedResultName": "xNok",
+          "cachedResultUrl": "https://github.com/xNok"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "xNok",
+          "mode": "list",
+          "cachedResultName": "xNok",
+          "cachedResultUrl": "https://github.com/xNok/xNok"
+        },
+        "filePath": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('File_Path', ``, 'string') }}",
+        "asBinaryProperty": false,
+        "additionalParameters": {
+          "reference": "auto-website"
+        }
+      },
+      "type": "n8n-nodes-base.githubTool",
+      "typeVersion": 1,
+      "position": [
+        340,
+        280
+      ],
+      "id": "4938eeb2-cedb-4a21-82ed-30125d255a76",
+      "name": "GitHub List Files",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "S9AffrrX7P2CgGz3",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "GitHub Create Blog Article",
+        "authentication": "oAuth2",
+        "resource": "file",
+        "owner": {
+          "__rl": true,
+          "value": "xNok",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "xNok",
+          "mode": "name"
+        },
+        "filePath": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('File_Path', ``, 'string') }}",
+        "fileContent": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('File_Content', ``, 'string') }}",
+        "commitMessage": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Commit_Message', ``, 'string') }}",
+        "additionalParameters": {
+          "branch": {
+            "branch": "auto-website"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.githubTool",
+      "typeVersion": 1,
+      "position": [
+        540,
+        280
+      ],
+      "id": "8b9923d8-a54e-45f7-ac62-6053242b1625",
+      "name": "GitHub Create Blog Article",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "S9AffrrX7P2CgGz3",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Edit Blog Article",
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "edit",
+        "owner": {
+          "__rl": true,
+          "value": "xNok",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "xNok",
+          "mode": "name"
+        },
+        "filePath": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('File_Path', ``, 'string') }}",
+        "fileContent": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('File_Content', ``, 'string') }}",
+        "commitMessage": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Commit_Message', ``, 'string') }}",
+        "additionalParameters": {
+          "branch": {
+            "branch": "auto-website"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.githubTool",
+      "typeVersion": 1,
+      "position": [
+        700,
+        280
+      ],
+      "id": "dad4b038-f68e-4de6-9a7a-81b6397f24e2",
+      "name": "GitHub Edit Blog Article",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "S9AffrrX7P2CgGz3",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "GitHub Blog Archetype",
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "xNok",
+          "mode": "list",
+          "cachedResultName": "xNok",
+          "cachedResultUrl": "https://github.com/xNok"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "xNok",
+          "mode": "list",
+          "cachedResultName": "xNok",
+          "cachedResultUrl": "https://github.com/xNok/xNok"
+        },
+        "filePath": "website/content/english/blogs/2024-06-23-building-a-devsecops-culture-the-security-champions-program.md",
+        "asBinaryProperty": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('As_Binary_Property', ``, 'boolean') }}",
+        "additionalParameters": {}
+      },
+      "type": "n8n-nodes-base.githubTool",
+      "typeVersion": 1,
+      "position": [
+        40,
+        280
+      ],
+      "id": "1c9b3735-0d1a-4913-adc6-cdaea1c084de",
+      "name": "GitHub Blog Example",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "S9AffrrX7P2CgGz3",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        200,
+        -420
+      ],
+      "id": "28774f4c-39c6-477e-8efb-a354ddab41ed",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Create a new branch for the specified project on Github",
+        "method": "POST",
+        "url": "=https://api.github.com/repos/xnok/xnok/git/refs",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "githubOAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"ref\":\"refs/heads/{{branch-name}}\",\n  \"sha\":\"{{master-sha}}\"\n}",
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "branch-name",
+              "description": "The name of the branch you want to create",
+              "type": "string"
+            },
+            {
+              "name": "master-sha",
+              "description": "The sha of the last commit on the master branch",
+              "type": "string"
+            }
+          ]
+        },
+        "optimizeResponse": true,
+        "dataField": "ref"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        480,
+        -220
+      ],
+      "id": "f55c4c0b-8431-4133-a4e6-4b201c195898",
+      "name": "Create New Git Branch",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "S9AffrrX7P2CgGz3",
+          "name": "GitHub account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Notion Trigger": {
+      "lastTimeChecked": "2025-02-26T10:36:00.000Z"
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-02-26T10:42:15.000Z",
+  "versionId": "6cb12e33-e47f-4872-b1ea-6b3c375b3bba"
+}
