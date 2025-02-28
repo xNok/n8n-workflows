@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
     "Google Gemini Chat Model": {
       "ai_languageModel": [
@@ -16,7 +16,7 @@
       "main": [
         [
           {
-            "node": "AI Agent - Content Editor",
+            "node": "Global",
             "type": "main",
             "index": 0
           }
@@ -98,8 +98,85 @@
       "ai_tool": [
         [
           {
-            "node": "AI Agent",
+            "node": "AI Agent Branch Creator",
             "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent Branch Creator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub": {
+      "main": [
+        [
+          {
+            "node": "Github Branches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Git Branch": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent Branch Creator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Global": {
+      "main": [
+        [
+          {
+            "node": "GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create GitHub Pull Request": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent - Content Editor",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent Branch Creator": {
+      "main": [
+        [
+          {
+            "node": "AI Agent - Content Editor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Github Branches": {
+      "main": [
+        [
+          {
+            "node": "AI Agent Branch Creator",
+            "type": "main",
             "index": 0
           }
         ]
@@ -121,8 +198,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -220,
-        200
+        300,
+        -260
       ],
       "id": "00b73f85-8c9f-4cc8-ad08-e326d5ad3f3b",
       "name": "Google Gemini Chat Model",
@@ -154,8 +231,8 @@
       "type": "n8n-nodes-base.notionTrigger",
       "typeVersion": 1,
       "position": [
-        -180,
-        -120
+        -920,
+        -560
       ],
       "id": "903683a2-6781-450e-90e8-5d3a8e6c736c",
       "name": "Notion Trigger",
@@ -183,8 +260,8 @@
       "type": "n8n-nodes-base.notionTool",
       "typeVersion": 2.2,
       "position": [
-        240,
-        280
+        380,
+        60
       ],
       "id": "263db593-d4de-4a49-abbb-7c0c8bf3e23d",
       "name": "Notion",
@@ -198,23 +275,19 @@
     {
       "parameters": {
         "descriptionType": "manual",
-        "toolDescription": "GitHub Blog Archetype",
+        "toolDescription": "Fetch GitHub Blog Archetype",
         "authentication": "oAuth2",
         "resource": "file",
         "operation": "get",
         "owner": {
           "__rl": true,
-          "value": "xNok",
-          "mode": "list",
-          "cachedResultName": "xNok",
-          "cachedResultUrl": "https://github.com/xNok"
+          "value": "={{ $('GitHub').item.json.owner.login }}",
+          "mode": "name"
         },
         "repository": {
           "__rl": true,
-          "value": "xNok",
-          "mode": "list",
-          "cachedResultName": "xNok",
-          "cachedResultUrl": "https://github.com/xNok/xNok"
+          "value": "={{ $('GitHub').item.json.name }}",
+          "mode": "name"
         },
         "filePath": "website/archetypes/default.md",
         "asBinaryProperty": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('As_Binary_Property', ``, 'boolean') }}",
@@ -223,8 +296,8 @@
       "type": "n8n-nodes-base.githubTool",
       "typeVersion": 1,
       "position": [
-        140,
-        280
+        280,
+        60
       ],
       "id": "58544514-5712-4d36-a8e7-6ba8fc727e4e",
       "name": "GitHub Blog Archetype",
@@ -238,17 +311,17 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "={{ $json.toJsonString() }}\n",
+        "text": "=Message from the previous agent:\n{{ $json.output }}\n\nData From the article:\n{{ $('Notion Trigger').item.json.toJsonString() }}",
         "hasOutputParser": true,
         "options": {
-          "systemMessage": "=You are the editor for my portfolio; your task is to update the Blog each time a new article is added to my database.\n\nUse the provided tools, such as Notion and Github, to retrieve the data you need. (You are not asked to code or implement any feature; focus on generating a good summary of what the article is about so it can be added to my portfolio).\n\nFinally end over the result to the next AI agent that is in charge of adding you content to the blog by submitting a pull-request to the owner.\n\n-------\nInstructions\n-------\n1. Fetch Blog Archetype: Get the blog template from GitHub.\n2. Check for update: Check on Github if the file exist in the folder `website/content/english/blogs` assuming it follows the naming convention below on Github and assess wheither this is a new entry or an update.\n3. Fetch Notion Data: Retrieve the complete article from Notion using the provided ID: {{ $json.id }}.\n4. Fetch Example Blog: Get the blog example to understand the expected structure\n5. Generate Hugo Page: Create/Update the content which involves summarizing the content (retrived in step 3(, adopting the proposed template (retrived in step 2), and following the style of the example (retrived in step 4).\n6. Publish to Github: Create or Update the blog entry file in `website/content/english/blogs` (name after the published date and title) and push the content.\n\n-------\nClarifications\n-------\n* file naming to make thing easy use the following convention: {data}-{title-slug}.md\n* When updating a blog entry the edit should be minimal, make sure to find what needs to ne updated. For instance the number of section should stay the same."
+          "systemMessage": "=**Role and Goal:**\n\nYou are my portfolio's editorial assistant. Your task is to automatically update my portfolio on GitHub whenever a new article is added to my Notion database. You will create or update blog entries in Markdown format, following a specific structure and style. Your primary focus is summarizing the article content and formatting it for my blog. You will not write code or implement features.\n\n**Outcome**\n* Provide the merge request URL you have created with the new or updated blof entry for review\n\n**Workflow:**\n\n1.  **Check for Existing Blog Entry:**\n    * Examine the `website/content/english/blogs` directory on GitHub.\n    * Determine if a blog entry with the filename `{YYYY-MM-DD}-{title-slug}.md` (where YYYY-MM-DD is the article's publish date) already exists.\n    * If it exists, this is an update; if not, it's a new entry.\n2.  **Fetch Article from Notion:**\n    * Use the provided Notion article ID (`{{ $('Notion Trigger').item.json.id }}`) to retrieve the full article content.\n3.  **Retrieve Example Blog Entry:**\n    * Fetch an existing example blog entry from `website/content/english/blogs` to understand the desired structure and style.\n4.  **Retrieve Blog Template:**\n    * Fetch the base blog template (Hugo archetype) from the designated GitHub repository.\n5.  **Generate/Update Markdown Content:**\n    * **Summarization:** Create a concise summary of the Notion article's key points.\n    * **Formatting:**\n        * Apply the formatting and style observed in the Example Blog Entry, make sure it follows the archetype.\n        * Content should start with a link to the original article (aka. {{ $('Notion Trigger').item.json.URL }})\n        * Insert the summery into the main body of the blog post.\n        * Adhere to the filename convention: `{YYYY-MM-DD}-{title-slug}.md`.\n    * **Update Considerations:**\n        * If updating an existing entry, make minimal changes, focusing on updating the article content.\n        * Maintain the existing structure (e.g., number of sections) as much as possible.\n6.  **Submit Pull Request:**\n    * Commit the new or updated Markdown file to `website/content/english/blogs`.\n    * Submit a pull request to the repository owner for review and merging.\n\n**Content Style Guide**\n\n* **Links**: Llinks should be given a title instead of the bare url\n* **Keyworks**: Try to identify important keyworkds in the summary and use bold (aka. **text**) to hilight them \n\n**Key Clarifications:**\n\n* **Filename Convention:** Use `{YYYY-MM-DD}-{title-slug}.md` for all blog entry filenames.\n* **Branch Name**: the Github branch to use when submitting content should be provided by the previous Agent\n* **Update**: Always submit a merge request for an update, you may inform me in the body that you didn't find much changes, but try you best to improve the existing content anyway.\n* **Minimal Updates:** When updating existing entries, preserve the original structure and make only necessary changes to the content.\n* **Focus on Content:** Your primary responsibility is summarizing and formatting the article content, not coding or trying to implement new features.\n* **Hand off:** the result of this process is to be handed off to the next AI agent in the chain.\n** **Pull Request Creation error**: if creating a pull request faild do not try again it mostlikely meant that it already exists"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        220,
-        0
+        420,
+        -420
       ],
       "id": "0a0632eb-352d-4c84-a2ba-93ca7036ca09",
       "name": "AI Agent - Content Editor"
@@ -260,17 +333,13 @@
         "operation": "get",
         "owner": {
           "__rl": true,
-          "value": "xNok",
-          "mode": "list",
-          "cachedResultName": "xNok",
-          "cachedResultUrl": "https://github.com/xNok"
+          "value": "={{ $('GitHub').item.json.name }}",
+          "mode": "name"
         },
         "repository": {
           "__rl": true,
-          "value": "xNok",
-          "mode": "list",
-          "cachedResultName": "xNok",
-          "cachedResultUrl": "https://github.com/xNok/xNok"
+          "value": "={{ $('GitHub').item.json.owner.login }}",
+          "mode": "name"
         },
         "filePath": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('File_Path', ``, 'string') }}",
         "asBinaryProperty": false,
@@ -281,8 +350,8 @@
       "type": "n8n-nodes-base.githubTool",
       "typeVersion": 1,
       "position": [
-        340,
-        280
+        480,
+        60
       ],
       "id": "4938eeb2-cedb-4a21-82ed-30125d255a76",
       "name": "GitHub List Files",
@@ -301,12 +370,12 @@
         "resource": "file",
         "owner": {
           "__rl": true,
-          "value": "xNok",
+          "value": "={{ $('GitHub').item.json.owner.login }}",
           "mode": "name"
         },
         "repository": {
           "__rl": true,
-          "value": "xNok",
+          "value": "={{ $('GitHub').item.json.name }}",
           "mode": "name"
         },
         "filePath": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('File_Path', ``, 'string') }}",
@@ -314,15 +383,15 @@
         "commitMessage": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Commit_Message', ``, 'string') }}",
         "additionalParameters": {
           "branch": {
-            "branch": "auto-website"
+            "branch": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Branch', ``, 'string') }}"
           }
         }
       },
       "type": "n8n-nodes-base.githubTool",
       "typeVersion": 1,
       "position": [
-        540,
-        280
+        680,
+        60
       ],
       "id": "8b9923d8-a54e-45f7-ac62-6053242b1625",
       "name": "GitHub Create Blog Article",
@@ -342,12 +411,12 @@
         "operation": "edit",
         "owner": {
           "__rl": true,
-          "value": "xNok",
+          "value": "={{ $('GitHub').item.json.owner.login }}",
           "mode": "name"
         },
         "repository": {
           "__rl": true,
-          "value": "xNok",
+          "value": "={{ $('GitHub').item.json.name }}",
           "mode": "name"
         },
         "filePath": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('File_Path', ``, 'string') }}",
@@ -355,15 +424,15 @@
         "commitMessage": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Commit_Message', ``, 'string') }}",
         "additionalParameters": {
           "branch": {
-            "branch": "auto-website"
+            "branch": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Branch', ``, 'string') }}"
           }
         }
       },
       "type": "n8n-nodes-base.githubTool",
       "typeVersion": 1,
       "position": [
-        700,
-        280
+        840,
+        60
       ],
       "id": "dad4b038-f68e-4de6-9a7a-81b6397f24e2",
       "name": "GitHub Edit Blog Article",
@@ -377,23 +446,19 @@
     {
       "parameters": {
         "descriptionType": "manual",
-        "toolDescription": "GitHub Blog Archetype",
+        "toolDescription": "Fetch GitHub Blog Example - A previous entry already created that meet our standards",
         "authentication": "oAuth2",
         "resource": "file",
         "operation": "get",
         "owner": {
           "__rl": true,
-          "value": "xNok",
-          "mode": "list",
-          "cachedResultName": "xNok",
-          "cachedResultUrl": "https://github.com/xNok"
+          "value": "={{ $('GitHub').item.json.owner.login }}",
+          "mode": "name"
         },
         "repository": {
           "__rl": true,
-          "value": "xNok",
-          "mode": "list",
-          "cachedResultName": "xNok",
-          "cachedResultUrl": "https://github.com/xNok/xNok"
+          "value": "={{ $('GitHub').item.json.name }}",
+          "mode": "name"
         },
         "filePath": "website/content/english/blogs/2024-06-23-building-a-devsecops-culture-the-security-champions-program.md",
         "asBinaryProperty": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('As_Binary_Property', ``, 'boolean') }}",
@@ -402,8 +467,8 @@
       "type": "n8n-nodes-base.githubTool",
       "typeVersion": 1,
       "position": [
-        40,
-        280
+        180,
+        60
       ],
       "id": "1c9b3735-0d1a-4913-adc6-cdaea1c084de",
       "name": "GitHub Blog Example",
@@ -416,49 +481,32 @@
     },
     {
       "parameters": {
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 1.7,
-      "position": [
-        200,
-        -420
-      ],
-      "id": "28774f4c-39c6-477e-8efb-a354ddab41ed",
-      "name": "AI Agent"
-    },
-    {
-      "parameters": {
         "toolDescription": "Create a new branch for the specified project on Github",
         "method": "POST",
-        "url": "=https://api.github.com/repos/xnok/xnok/git/refs",
+        "url": "={{ $('GitHub').item.json.url }}/git/refs",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "githubOAuth2Api",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"ref\":\"refs/heads/{{branch-name}}\",\n  \"sha\":\"{{master-sha}}\"\n}",
+        "jsonBody": "  {\n      \"ref\": \"refs/heads/{NEW-BRANCH-NAME}\",\n      \"sha\": \"{HASH-TO-BRANCH-FROM}\"\n  }",
         "placeholderDefinitions": {
           "values": [
             {
-              "name": "branch-name",
-              "description": "The name of the branch you want to create",
-              "type": "string"
+              "name": "NEW-BRANCH-NAME",
+              "description": "new chanch name"
             },
             {
-              "name": "master-sha",
-              "description": "The sha of the last commit on the master branch",
-              "type": "string"
+              "name": "HASH-TO-BRANCH-FROM",
+              "description": "Hash to branch from"
             }
           ]
-        },
-        "optimizeResponse": true,
-        "dataField": "ref"
+        }
       },
       "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
       "typeVersion": 1.1,
       "position": [
-        480,
-        -220
+        100,
+        -320
       ],
       "id": "f55c4c0b-8431-4133-a4e6-4b201c195898",
       "name": "Create New Git Branch",
@@ -466,6 +514,235 @@
         "githubOAuth2Api": {
           "id": "S9AffrrX7P2CgGz3",
           "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        -420
+      ],
+      "id": "32dc1863-cbb5-4d19-aab5-6bb452485cf4",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "NtlUZLNkurhNWplg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "repository",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "={{ $json.owner }}",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "={{ $json.repo }}",
+          "mode": "name"
+        }
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        -500,
+        -560
+      ],
+      "id": "9a066d72-799e-4954-a791-374673c3f700",
+      "name": "GitHub",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "S9AffrrX7P2CgGz3",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Create a new branch for the specified project on Github",
+        "url": "={{ $('GitHub').item.json.url }}/git/refs/heads/{BRANCH-NAME}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "githubOAuth2Api",
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "BRANCH-NAME",
+              "description": "branch name"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        -60,
+        -320
+      ],
+      "id": "e69ee7f4-7073-4b69-b4f0-782c3c394aad",
+      "name": "Get Git Branch",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "S9AffrrX7P2CgGz3",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "492df5a6-f329-4b77-b885-bd5b169674e0",
+              "name": "owner",
+              "value": "xNok",
+              "type": "string"
+            },
+            {
+              "id": "81a70dab-7609-457e-9269-35a91f893393",
+              "name": "repo",
+              "value": "xNok",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -640,
+        -560
+      ],
+      "id": "1c324a3b-fc86-445c-8d21-08fb828125ac",
+      "name": "Global"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Create Pull-Request on Github to submit completed work ",
+        "method": "POST",
+        "url": "={{ $('GitHub').item.json.url }}/pulls",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "githubApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"title\": \"{TITLE}\",\n  \"body\": \"{BODY}\",\n  \"head\": \"{NEW-BRANCH-NAME}\",\n  \"base\": \"{BASE-BRANCH-NAME}\"\n}",
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "TITLE",
+              "type": "string"
+            },
+            {
+              "name": "BODY",
+              "type": "string"
+            },
+            {
+              "name": "NEW-BRANCH-NAME",
+              "type": "string"
+            },
+            {
+              "name": "BASE-BRANCH-NAME",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        980,
+        60
+      ],
+      "id": "595d1363-cd2c-4b8d-a1d8-d15881097171",
+      "name": "Create GitHub Pull Request",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "S9AffrrX7P2CgGz3",
+          "name": "GitHub account"
+        },
+        "githubApi": {
+          "id": "S1lkprAtfGVidye2",
+          "name": "GitHub account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "=define",
+        "text": "=Article data:\n{{ $('Notion Trigger').item.json.toJsonString() }}\n\n\nRepository data: \n{{ $('GitHub').item.json.toJsonString() }}\n\nRepository Branches\n{{ $json.toJsonString() }}",
+        "options": {
+          "systemMessage": "=1.  **Retrieve Main Branch SHA:**\n    * Obtain the current SHA (Secure Hash Algorithm) of the `main` branch in the designated GitHub repository. This is essential for creating a new branch from the latest commit.\n\n2 **List Existing branches**\n  * if a similar banche already exist especially starting with the same date it is safe to assume that a branch was already created for this articles, if so simply inform the next agent of the branche name.\n\n3.  **Create New Branch:**\n    * Generate a new branch with the following naming convention: `{YYYY-MM-DD}-{title-slug}`.\nfriendly slug derived from the article's title (e.g., replace spaces with hyphens, lowercase all letters).\n    * Create this new branch based on the retrieved `main` branch SHA.\n\n**Key Clarifications:**\n* *Branch Creation failure*: if you are unable to create the branch, it might already exist, try to get the branch with that name to confirm"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -120,
+        -560
+      ],
+      "id": "28774f4c-39c6-477e-8efb-a354ddab41ed",
+      "name": "AI Agent Branch Creator"
+    },
+    {
+      "parameters": {
+        "content": "## Analyse the content\n",
+        "height": 220,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        120,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "014c047c-04ad-46eb-91cb-0e4897c74522",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Publish Content\n",
+        "height": 220,
+        "width": 540
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        640,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "02b68048-74ab-4dcc-9aa3-a3c7fee3ca17",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}/branches",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "githubApi",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -360,
+        -560
+      ],
+      "id": "6ef72c76-0b31-4727-8731-491ebe7427b6",
+      "name": "Github Branches",
+      "credentials": {
+        "githubApi": {
+          "id": "S1lkprAtfGVidye2",
+          "name": "GitHub account 2"
         }
       }
     }
@@ -476,11 +753,15 @@
   },
   "staticData": {
     "node:Notion Trigger": {
-      "lastTimeChecked": "2025-02-26T10:36:00.000Z"
+      "lastTimeChecked": "2025-02-28T01:21:00.000Z",
+      "possibleDuplicates": [
+        "6ce8af73-be64-4158-ab8a-9c88f6174cd2",
+        "4180c489-bf6d-439f-b20d-a4fcd2b86b18"
+      ]
     }
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-02-26T10:42:15.000Z",
-  "versionId": "6cb12e33-e47f-4872-b1ea-6b3c375b3bba"
+  "updatedAt": "2025-02-28T01:19:54.000Z",
+  "versionId": "b0d5503c-3b3d-4288-9d7e-d9950c98dc68"
 }
