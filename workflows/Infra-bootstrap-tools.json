@@ -1,0 +1,265 @@
+{
+  "active": false,
+  "connections": {
+    "GitHub": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Global": {
+      "main": [
+        [
+          {
+            "node": "GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub List Files": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub Get File content": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Global",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-03-01T21:18:47.040Z",
+  "id": "j7TnIIRCyyWlVyyA",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Infra-bootstrap-tools",
+  "nodes": [
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "repository",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "={{ $json.owner }}",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "={{ $json.repo }}",
+          "mode": "name"
+        }
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        180,
+        -120
+      ],
+      "id": "7e8acbc8-b261-43f5-8dfa-51d5117b4a60",
+      "name": "GitHub",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "S9AffrrX7P2CgGz3",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fa0001cf-063b-4f76-aab5-5a298d5672fc",
+              "name": "owner",
+              "value": "xNok",
+              "type": "string"
+            },
+            {
+              "id": "aad27d25-1eb9-4698-b92e-36e25d05c26f",
+              "name": "repo",
+              "value": "infra-bootstrap-tools",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        60,
+        -120
+      ],
+      "id": "0641928c-15b5-4c65-9778-719b88604e45",
+      "name": "Global"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('When chat message received').item.json.chatInput }}\n\n",
+        "options": {
+          "systemMessage": "=You are a software developer assigned to the project {{ $('GitHub').item.json.full_name }}. When asked a question you can look throught the folder and file in the repo to answaer the question.\n\nRepo informations\n{{ $('GitHub').item.json.toJsonString() }} "
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        420,
+        -120
+      ],
+      "id": "bfc39e58-85f2-43c6-abef-5f46bed51d13",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        340,
+        80
+      ],
+      "id": "f3eca9d3-1dfd-4d08-aa23-3c521db34b60",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "NtlUZLNkurhNWplg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "list",
+        "owner": {
+          "__rl": true,
+          "value": "={{ $('GitHub').item.json.owner.login }}",
+          "mode": "url"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "={{ $('GitHub').item.json.name }}",
+          "mode": "url"
+        },
+        "filePath": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Path', ``, 'string') }}"
+      },
+      "type": "n8n-nodes-base.githubTool",
+      "typeVersion": 1,
+      "position": [
+        520,
+        100
+      ],
+      "id": "f62c72b9-0cf7-44e5-8341-3116d336fd14",
+      "name": "GitHub List Files",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "S9AffrrX7P2CgGz3",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "={{ $('GitHub').item.json.owner.login }}",
+          "mode": "url"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "={{ $('GitHub').item.json.name }}",
+          "mode": "url"
+        },
+        "filePath": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Path', ``, 'string') }}",
+        "asBinaryProperty": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('As_Binary_Property', ``, 'boolean') }}",
+        "additionalParameters": {}
+      },
+      "type": "n8n-nodes-base.githubTool",
+      "typeVersion": 1,
+      "position": [
+        660,
+        100
+      ],
+      "id": "827f1ef9-561a-473f-8a86-29d8ffd21ea8",
+      "name": "GitHub Get File content",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "S9AffrrX7P2CgGz3",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -80,
+        -120
+      ],
+      "id": "5a4dd893-835b-4c61-bf39-8bcab545958d",
+      "name": "When chat message received",
+      "webhookId": "376c3dad-b382-4931-9326-758aa88d2a88"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-03-01T23:51:19.000Z",
+  "versionId": "1c6c5a9d-0738-425a-8b96-2704c6c6d34d"
+}
