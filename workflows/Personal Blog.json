@@ -131,7 +131,7 @@
       "main": [
         [
           {
-            "node": "Global",
+            "node": "If",
             "type": "main",
             "index": 0
           }
@@ -154,17 +154,6 @@
         [
           {
             "node": "Aggregate1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "When clicking ‘Test workflow’": {
-      "main": [
-        [
-          {
-            "node": "Published Articles",
             "type": "main",
             "index": 0
           }
@@ -243,6 +232,35 @@
           {
             "node": "AI Agent - Content Editor",
             "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Published Articles",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Published Articles",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Global",
+            "type": "main",
             "index": 0
           }
         ]
@@ -649,7 +667,7 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=Article data:\n{{ $('Global').item.json.toJsonString() }}\n\nRepository data\n{{ $('GitHub').item.json.toJsonString() }}\n\n",
+        "text": "=Article data:\n{{ $('Global').item.json.toJsonString() }}\n{{ $('Global').item.json.input.name }}\nRepository data\n{{ $('GitHub').item.json.toJsonString() }}\n\n",
         "hasOutputParser": true,
         "options": {
           "systemMessage": "=1.  **Retrieve Main Branch SHA:**\n    * Obtain the current SHA (Secure Hash Algorithm) of the `main` branch in the designated GitHub repository. This is essential for creating a new branch from the latest commit.\n\n2 **Verify if similar**\n  * if a similar banche already exist especially starting with the same date it is safe to assume that a branch was already created for this articles, if so simply inform the next agent of the branche name. (Branches are provided in in the repos data provided)\n\n3.  **Create New Branch:**\n    * Generate a new branch with the following naming convention: `{YYYY-MM-DD}-{title-slug}`.\nfriendly slug derived from the article's title (e.g., replace spaces with hyphens, lowercase all letters).\n    * Create this new branch based on the retrieved `main` branch SHA.\n\n**Key Clarifications:**\n* *Branch Creation failure*: if you are unable to create the branch, it might already exist, try to get the branch with that name to confirm\n* *Branch name length**: when it makes sense remove details like authore name and where/when it was published (eg.  | by Alexandre Couëdelo | Oct, 2022 | FAUN Publication)\n* **date**: use publication date, not creation date",
@@ -750,17 +768,6 @@
           "name": "Notion account"
         }
       }
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        -1420,
-        -760
-      ],
-      "id": "ee481a9b-e7c0-4ec9-a87c-5bfda2cfd0fc",
-      "name": "When clicking ‘Test workflow’"
     },
     {
       "parameters": {
@@ -950,6 +957,59 @@
       ],
       "id": "4180c14a-e284-4936-9dc8-b31949d01385",
       "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 18
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1440,
+        -760
+      ],
+      "id": "44c81d3b-6428-4cbe-a900-8ba65baa8ffe",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4bd8656d-a3be-4c9c-8f3a-7b02a471c6bb",
+              "leftValue": "={{ $json.property_published_date }}",
+              "rightValue": "=null",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -860,
+        -760
+      ],
+      "id": "6c694d04-0641-49b4-9b1e-bca0e130c846",
+      "name": "If"
     }
   ],
   "pinData": {},
@@ -958,14 +1018,17 @@
   },
   "staticData": {
     "node:Notion Trigger": {
-      "lastTimeChecked": "2025-03-01T21:52:00.000Z",
+      "lastTimeChecked": "2025-03-03T23:35:00.000Z",
       "possibleDuplicates": [
         "d8cc5ab6-983a-4011-a724-a7cc9c545464"
       ]
+    },
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
     }
   },
   "tags": [],
-  "triggerCount": 1,
-  "updatedAt": "2025-03-01T21:52:03.000Z",
-  "versionId": "0f717145-1f64-40d7-8b04-c37b5d1f466f"
+  "triggerCount": 2,
+  "updatedAt": "2025-03-03T23:35:45.000Z",
+  "versionId": "5b4f7672-0a18-45b0-96b7-7b45f37026d0"
 }
