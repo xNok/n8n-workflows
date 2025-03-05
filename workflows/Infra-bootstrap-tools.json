@@ -5,7 +5,7 @@
       "main": [
         [
           {
-            "node": "AI Agent",
+            "node": "AI Documentation Contributor",
             "type": "main",
             "index": 0
           }
@@ -27,7 +27,7 @@
       "ai_languageModel": [
         [
           {
-            "node": "AI Agent",
+            "node": "AI Documentation Contributor",
             "type": "ai_languageModel",
             "index": 0
           }
@@ -38,7 +38,7 @@
       "ai_tool": [
         [
           {
-            "node": "AI Agent",
+            "node": "AI Documentation Contributor",
             "type": "ai_tool",
             "index": 0
           }
@@ -49,7 +49,7 @@
       "ai_tool": [
         [
           {
-            "node": "AI Agent",
+            "node": "AI Documentation Contributor",
             "type": "ai_tool",
             "index": 0
           }
@@ -62,6 +62,50 @@
           {
             "node": "Global",
             "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub1": {
+      "main": [
+        [
+          {
+            "node": "AI Pull-Request Contributor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Pull-Request Contributor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub List Popular Paths": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Documentation Contributor",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub Get Pull-Request Diff": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Pull-Request Contributor",
+            "type": "ai_tool",
             "index": 0
           }
         ]
@@ -137,23 +181,6 @@
     },
     {
       "parameters": {
-        "promptType": "define",
-        "text": "={{ $('When chat message received').item.json.chatInput }}\n\n",
-        "options": {
-          "systemMessage": "=You are a software developer assigned to the project {{ $('GitHub').item.json.full_name }}. When asked a question you can look throught the folder and file in the repo to answaer the question.\n\nRepo informations\n{{ $('GitHub').item.json.toJsonString() }} "
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 1.7,
-      "position": [
-        420,
-        -120
-      ],
-      "id": "bfc39e58-85f2-43c6-abef-5f46bed51d13",
-      "name": "AI Agent"
-    },
-    {
-      "parameters": {
         "modelName": "models/gemini-2.0-flash-lite",
         "options": {}
       },
@@ -180,20 +207,20 @@
         "owner": {
           "__rl": true,
           "value": "={{ $('GitHub').item.json.owner.login }}",
-          "mode": "url"
+          "mode": "name"
         },
         "repository": {
           "__rl": true,
           "value": "={{ $('GitHub').item.json.name }}",
-          "mode": "url"
+          "mode": "name"
         },
         "filePath": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Path', ``, 'string') }}"
       },
       "type": "n8n-nodes-base.githubTool",
       "typeVersion": 1,
       "position": [
-        520,
-        100
+        640,
+        140
       ],
       "id": "f62c72b9-0cf7-44e5-8341-3116d336fd14",
       "name": "GitHub List Files",
@@ -212,12 +239,12 @@
         "owner": {
           "__rl": true,
           "value": "={{ $('GitHub').item.json.owner.login }}",
-          "mode": "url"
+          "mode": "name"
         },
         "repository": {
           "__rl": true,
           "value": "={{ $('GitHub').item.json.name }}",
-          "mode": "url"
+          "mode": "name"
         },
         "filePath": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Path', ``, 'string') }}",
         "asBinaryProperty": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('As_Binary_Property', ``, 'boolean') }}",
@@ -226,8 +253,8 @@
       "type": "n8n-nodes-base.githubTool",
       "typeVersion": 1,
       "position": [
-        660,
-        100
+        780,
+        140
       ],
       "id": "827f1ef9-561a-473f-8a86-29d8ffd21ea8",
       "name": "GitHub Get File content",
@@ -251,6 +278,142 @@
       "id": "5a4dd893-835b-4c61-bf39-8bcab545958d",
       "name": "When chat message received",
       "webhookId": "376c3dad-b382-4931-9326-758aa88d2a88"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "repository",
+        "operation": "getPullRequests",
+        "owner": {
+          "__rl": true,
+          "value": "xnok",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "infra-bootstrap-tools",
+          "mode": "list",
+          "cachedResultName": "infra-bootstrap-tools",
+          "cachedResultUrl": "https://github.com/xNok/infra-bootstrap-tools"
+        },
+        "getRepositoryPullRequestsFilters": {}
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        -500
+      ],
+      "id": "2892f652-1519-4150-97cd-bee3dab01211",
+      "name": "GitHub1",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "S9AffrrX7P2CgGz3",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        140,
+        -320
+      ],
+      "id": "c6c555cf-c767-47c5-bf59-000be3e7da1d",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "NtlUZLNkurhNWplg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "repository",
+        "operation": "listPopularPaths",
+        "owner": {
+          "__rl": true,
+          "value": "={{ $('GitHub').item.json.owner.login }}",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Repository_Name', ``, 'string') }}",
+          "mode": "name"
+        }
+      },
+      "type": "n8n-nodes-base.githubTool",
+      "typeVersion": 1,
+      "position": [
+        920,
+        140
+      ],
+      "id": "3fb661ba-0a1b-4124-9044-8c73ce8d940a",
+      "name": "GitHub List Popular Paths",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "S9AffrrX7P2CgGz3",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.diff_url }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "githubOAuth2Api"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        540,
+        -320
+      ],
+      "id": "c7fff339-c344-4944-bebb-a9cc0e70d684",
+      "name": "GitHub Get Pull-Request Diff",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "S9AffrrX7P2CgGz3",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        260,
+        -500
+      ],
+      "id": "a2fa1a9e-706f-4342-8dfe-163db9d9c8f6",
+      "name": "AI Pull-Request Contributor"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('When chat message received').item.json.chatInput }}\n\n",
+        "options": {
+          "systemMessage": "=You are a software developer assigned to the project {{ $('GitHub').item.json.full_name }}. When asked a question you can look throught the folder and file in the repo to answaer the question.\n\nRepo informations\n{{ $('GitHub').item.json.toJsonString() }} "
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        420,
+        -120
+      ],
+      "id": "bfc39e58-85f2-43c6-abef-5f46bed51d13",
+      "name": "AI Documentation Contributor"
     }
   ],
   "pinData": {},
@@ -260,6 +423,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-03-01T23:51:19.000Z",
-  "versionId": "1c6c5a9d-0738-425a-8b96-2704c6c6d34d"
+  "updatedAt": "2025-03-04T19:24:50.000Z",
+  "versionId": "8f2ff96e-6900-493a-9387-1ed70bc5fbca"
 }
