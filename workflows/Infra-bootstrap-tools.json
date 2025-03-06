@@ -5,7 +5,7 @@
       "main": [
         [
           {
-            "node": "AI Documentation Contributor",
+            "node": "GitHub Get Pull-Request",
             "type": "main",
             "index": 0
           }
@@ -23,22 +23,11 @@
         ]
       ]
     },
-    "Google Gemini Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Documentation Contributor",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "GitHub List Files": {
       "ai_tool": [
         [
           {
-            "node": "AI Documentation Contributor",
+            "node": "AI Pull-Request Contributor",
             "type": "ai_tool",
             "index": 0
           }
@@ -49,30 +38,8 @@
       "ai_tool": [
         [
           {
-            "node": "AI Documentation Contributor",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "When chat message received": {
-      "main": [
-        [
-          {
-            "node": "Global",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "GitHub1": {
-      "main": [
-        [
-          {
             "node": "AI Pull-Request Contributor",
-            "type": "main",
+            "type": "ai_tool",
             "index": 0
           }
         ]
@@ -93,19 +60,85 @@
       "ai_tool": [
         [
           {
-            "node": "AI Documentation Contributor",
+            "node": "AI Pull-Request Contributor",
             "type": "ai_tool",
             "index": 0
           }
         ]
       ]
     },
-    "GitHub Get Pull-Request Diff": {
+    "GitHub Get Pull-Request": {
+      "main": [
+        [
+          {
+            "node": "Get Pull Request Diff",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Pull-Request Contributor",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Global",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Pull Request Diff": {
+      "main": [
+        [
+          {
+            "node": "AI Pull-Request Contributor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub Update Comment": {
       "ai_tool": [
         [
           {
             "node": "AI Pull-Request Contributor",
             "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub Create Comment": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Pull-Request Contributor",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Pull-Request Contributor",
+            "type": "ai_outputParser",
             "index": 0
           }
         ]
@@ -138,8 +171,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        180,
-        -120
+        60,
+        -540
       ],
       "id": "7e8acbc8-b261-43f5-8dfa-51d5117b4a60",
       "name": "GitHub",
@@ -173,34 +206,16 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        60,
-        -120
+        -60,
+        -540
       ],
       "id": "0641928c-15b5-4c65-9778-719b88604e45",
       "name": "Global"
     },
     {
       "parameters": {
-        "modelName": "models/gemini-2.0-flash-lite",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1,
-      "position": [
-        340,
-        80
-      ],
-      "id": "f3eca9d3-1dfd-4d08-aa23-3c521db34b60",
-      "name": "Google Gemini Chat Model",
-      "credentials": {
-        "googlePalmApi": {
-          "id": "NtlUZLNkurhNWplg",
-          "name": "Google Gemini(PaLM) Api account"
-        }
-      }
-    },
-    {
-      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "=List folder content from GitHub for  {{ $('GitHub').item.json.full_name }}",
         "authentication": "oAuth2",
         "resource": "file",
         "operation": "list",
@@ -219,8 +234,8 @@
       "type": "n8n-nodes-base.githubTool",
       "typeVersion": 1,
       "position": [
-        640,
-        140
+        160,
+        -140
       ],
       "id": "f62c72b9-0cf7-44e5-8341-3116d336fd14",
       "name": "GitHub List Files",
@@ -233,6 +248,8 @@
     },
     {
       "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "=Get the content of a specific file from GitHub for {{ $('GitHub').item.json.full_name }}",
         "authentication": "oAuth2",
         "resource": "file",
         "operation": "get",
@@ -248,13 +265,15 @@
         },
         "filePath": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Path', ``, 'string') }}",
         "asBinaryProperty": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('As_Binary_Property', ``, 'boolean') }}",
-        "additionalParameters": {}
+        "additionalParameters": {
+          "reference": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Reference', ``, 'string') }}"
+        }
       },
       "type": "n8n-nodes-base.githubTool",
       "typeVersion": 1,
       "position": [
-        780,
-        140
+        300,
+        -140
       ],
       "id": "827f1ef9-561a-473f-8a86-29d8ffd21ea8",
       "name": "GitHub Get File content",
@@ -267,17 +286,75 @@
     },
     {
       "parameters": {
+        "modelName": "models/gemini-2.0-flash",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
-      "typeVersion": 1.1,
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
       "position": [
-        -80,
-        -120
+        480,
+        -360
       ],
-      "id": "5a4dd893-835b-4c61-bf39-8bcab545958d",
-      "name": "When chat message received",
-      "webhookId": "376c3dad-b382-4931-9326-758aa88d2a88"
+      "id": "c6c555cf-c767-47c5-bf59-000be3e7da1d",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "NtlUZLNkurhNWplg",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "=List the most popular files on Github for {{ $('GitHub').item.json.full_name }}",
+        "authentication": "oAuth2",
+        "resource": "repository",
+        "operation": "listPopularPaths",
+        "owner": {
+          "__rl": true,
+          "value": "={{ $('GitHub').item.json.owner.login }}",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Repository_Name', ``, 'string') }}",
+          "mode": "name"
+        }
+      },
+      "type": "n8n-nodes-base.githubTool",
+      "typeVersion": 1,
+      "position": [
+        440,
+        -140
+      ],
+      "id": "3fb661ba-0a1b-4124-9044-8c73ce8d940a",
+      "name": "GitHub List Popular Paths",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "S9AffrrX7P2CgGz3",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Here is the Git Diff for the PR you need to review, please submit your analysis on GitHub as a comment.\n\n{{ $json.data }}\n\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=**Role:** You are an expert code reviewer for {{ $('GitHub').item.json.full_name }} an project providing {{ $('GitHub').item.json.description }}\n\n**Outcome:**\n\nCreate or Update a Pull-Request Comment with your analysis. List the files you have explore and provide a link to the review created.\n\n**Steps:**\n\n1.  **Code Analysis:**\n    * Examine the code changes (git digg provided bu the user)\n    * Always Retrieve and Analyse the existing code in affected folder (using provided fucntion)\n    * Always Retrive and Analyse existing documentation located in `website/content/en/docs` (using provided function)\n1.  **Create or Update GitHub Review:**\n    * Format your review in a clear and organized manner, suitable for submission as a GitHub comment (using the provided function)\n    * Create a concise summary of the PR's purpose and changes.\n    * Highlight the key improvements and potential issues.\n    * If this is a subsequent review, update the summary to reflect all previous feedback and current changes.\n    * Use Markdown formatting for code snippets and readability.\n    * Submit the review to the appropriate pull request on GitHub.\n\n\n**Clarification**\n\n* You can access any file in the relevant repository using provided functions, path to the file is contained in the git diff\n  * You can only list file on master branch, but can choose the relevant branch when fetching a single file\n* You role is limited to analysing code and configurations\n\n**Constraints:**\n\n* Focus on providing constructive and helpful feedback.\n* Maintain a professional and respectful tone.\n",
+          "returnIntermediateSteps": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        620,
+        -540
+      ],
+      "id": "a2fa1a9e-706f-4342-8dfe-163db9d9c8f6",
+      "name": "AI Pull-Request Contributor"
     },
     {
       "parameters": {
@@ -301,11 +378,11 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        -80,
-        -500
+        200,
+        -540
       ],
       "id": "2892f652-1519-4150-97cd-bee3dab01211",
-      "name": "GitHub1",
+      "name": "GitHub Get Pull-Request",
       "credentials": {
         "githubOAuth2Api": {
           "id": "S9AffrrX7P2CgGz3",
@@ -315,29 +392,86 @@
     },
     {
       "parameters": {
-        "modelName": "models/gemini-1.5-flash",
-        "options": {}
+        "content": "## Explore A repository\n",
+        "height": 220,
+        "width": 480
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.stickyNote",
       "position": [
-        140,
-        -320
+        120,
+        -200
       ],
-      "id": "c6c555cf-c767-47c5-bf59-000be3e7da1d",
-      "name": "Google Gemini Chat Model1",
+      "typeVersion": 1,
+      "id": "2438a1ce-1fb4-476e-aca1-3a6490f1b353",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('GitHub Get Pull-Request').item.json.id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        600,
+        -360
+      ],
+      "id": "fefb2f20-fdc3-4d60-9bd9-51cdc2b3ce2f",
+      "name": "Postgres Chat Memory",
       "credentials": {
-        "googlePalmApi": {
-          "id": "NtlUZLNkurhNWplg",
-          "name": "Google Gemini(PaLM) Api account"
+        "postgres": {
+          "id": "85lAUCQ4Q6fnhom4",
+          "name": "Postgres account"
         }
       }
     },
     {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        -540
+      ],
+      "id": "98a34102-9525-4f56-aa28-ca4309a9a110",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
       "parameters": {
+        "content": "## Pull Request Management",
+        "height": 220,
+        "width": 400
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        640,
+        -200
+      ],
+      "typeVersion": 1,
+      "id": "3f23dce5-707a-49fc-9327-cbd30050c802",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.diff_url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        360,
+        -540
+      ],
+      "id": "6be1dddb-07f6-4562-802f-f6747c520a76",
+      "name": "Get Pull Request Diff"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Update Pull Request Comment; this will add a comment to the Pull Request",
         "authentication": "oAuth2",
-        "resource": "repository",
-        "operation": "listPopularPaths",
+        "resource": "review",
+        "operation": "update",
         "owner": {
           "__rl": true,
           "value": "={{ $('GitHub').item.json.owner.login }}",
@@ -345,18 +479,21 @@
         },
         "repository": {
           "__rl": true,
-          "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Repository_Name', ``, 'string') }}",
+          "value": "={{ $('GitHub').item.json.name }}",
           "mode": "name"
-        }
+        },
+        "pullRequestNumber": "={{ $('GitHub Get Pull-Request').item.json.number }}",
+        "reviewId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Review_ID', ``, 'string') }}",
+        "body": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Body', ``, 'string') }}"
       },
       "type": "n8n-nodes-base.githubTool",
       "typeVersion": 1,
       "position": [
-        920,
-        140
+        820,
+        -140
       ],
-      "id": "3fb661ba-0a1b-4124-9044-8c73ce8d940a",
-      "name": "GitHub List Popular Paths",
+      "id": "cdb377b7-ff6a-4b2c-b0b9-e88608c47f44",
+      "name": "GitHub Update Comment",
       "credentials": {
         "githubOAuth2Api": {
           "id": "S9AffrrX7P2CgGz3",
@@ -366,18 +503,33 @@
     },
     {
       "parameters": {
-        "url": "={{ $json.diff_url }}",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "githubOAuth2Api"
+        "descriptionType": "manual",
+        "toolDescription": "Create a Pull Request Review; this will add a comment to the Pull Request",
+        "authentication": "oAuth2",
+        "resource": "review",
+        "owner": {
+          "__rl": true,
+          "value": "={{ $('GitHub').item.json.owner.login }}",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "={{ $('GitHub').item.json.name }}",
+          "mode": "name"
+        },
+        "pullRequestNumber": "={{ $('GitHub Get Pull-Request').item.json.number }}",
+        "event": "comment",
+        "body": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Body', ``, 'string') }}",
+        "additionalFields": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
-      "typeVersion": 1.1,
+      "type": "n8n-nodes-base.githubTool",
+      "typeVersion": 1,
       "position": [
-        540,
-        -320
+        680,
+        -140
       ],
-      "id": "c7fff339-c344-4944-bebb-a9cc0e70d684",
-      "name": "GitHub Get Pull-Request Diff",
+      "id": "c7171ab6-5c71-4836-9497-b984de592217",
+      "name": "GitHub Create Comment",
       "credentials": {
         "githubOAuth2Api": {
           "id": "S9AffrrX7P2CgGz3",
@@ -387,33 +539,32 @@
     },
     {
       "parameters": {
-        "options": {}
+        "jsonSchemaExample": "{\n\t\"review_url\": \"https://github...\",\n\t\"files_explore\": [\"website/content/en/doc/...\"]\n}"
       },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 1.7,
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
       "position": [
-        260,
-        -500
-      ],
-      "id": "a2fa1a9e-706f-4342-8dfe-163db9d9c8f6",
-      "name": "AI Pull-Request Contributor"
-    },
-    {
-      "parameters": {
-        "promptType": "define",
-        "text": "={{ $('When chat message received').item.json.chatInput }}\n\n",
-        "options": {
-          "systemMessage": "=You are a software developer assigned to the project {{ $('GitHub').item.json.full_name }}. When asked a question you can look throught the folder and file in the repo to answaer the question.\n\nRepo informations\n{{ $('GitHub').item.json.toJsonString() }} "
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 1.7,
-      "position": [
-        420,
+        1120,
         -120
       ],
-      "id": "bfc39e58-85f2-43c6-abef-5f46bed51d13",
-      "name": "AI Documentation Contributor"
+      "id": "0fc7f265-091e-462b-9d76-425a45e2fdca",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "content": "## Gard Rail",
+        "height": 220,
+        "width": 320,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1080,
+        -200
+      ],
+      "typeVersion": 1,
+      "id": "6c75c7e6-ff52-48bd-97d3-499f5cb3021c",
+      "name": "Sticky Note2"
     }
   ],
   "pinData": {},
@@ -423,6 +574,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-03-04T19:24:50.000Z",
-  "versionId": "8f2ff96e-6900-493a-9387-1ed70bc5fbca"
+  "updatedAt": "2025-03-05T22:39:31.000Z",
+  "versionId": "6a26c294-2d61-43b4-a775-3e78940e053e"
 }
