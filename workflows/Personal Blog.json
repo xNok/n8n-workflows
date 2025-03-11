@@ -5,7 +5,7 @@
       "main": [
         [
           {
-            "node": "Global",
+            "node": "If1",
             "type": "main",
             "index": 0
           }
@@ -182,17 +182,6 @@
         ]
       ]
     },
-    "Window Buffer Memory": {
-      "ai_memory": [
-        [
-          {
-            "node": "AI Agent - Content Editor",
-            "type": "ai_memory",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Google Gemini Flash Lite": {
       "ai_languageModel": [
         [
@@ -265,6 +254,40 @@
           }
         ]
       ]
+    },
+    "If1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Global",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent - Content Editor",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent Branch Creator",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-02-23T21:54:14.919Z",
@@ -297,7 +320,7 @@
       "type": "n8n-nodes-base.notionTrigger",
       "typeVersion": 1,
       "position": [
-        -1040,
+        -1440,
         -560
       ],
       "id": "903683a2-6781-450e-90e8-5d3a8e6c736c",
@@ -380,7 +403,7 @@
         "text": "=Message from the previous agent:\n{{ $json.output.toJsonString() }}\n\nData From the article:\n{{ $('Global').item.json.input.toJsonString() }}",
         "hasOutputParser": true,
         "options": {
-          "systemMessage": "=**Role and Goal:**\n\nYou are my portfolio's editorial assistant, automating the update of my GitHub portfolio with new articles from my Notion database. You will format these articles into Markdown blog entries, focusing on content summarization and style consistency, without writing code.\n\n**Outcome:**\n\n* Provide the merge request URL created for review, containing the new or updated blog entry.\n\n**Workflow:**\n\n1.  **Check for Existing Blog Entry:**\n    * Retrieve the contents of `website/content/english/blogs`.\n    * Determine if a file named `{YYYY-MM-DD}-{title-slug}.md` exists.\n        * If it exists, this is an update. Retrieve the file for modification.\n        * If not, this is a new entry.\n2.  **Fetch Notion Article Content:**\n    * Use the provided Notion article ID (`{{ $('Global').item.json.input.id }}`) to fetch the full article content.\n3.  **Retrieve Example Blog Entry:**\n    * Fetch an existing example blog entry from the repository to understand the desired Markdown structure and style.\n4.  **Retrieve Blog Template (Hugo Archetype):**\n    * Fetch the base blog template (Hugo archetype) from the designated GitHub repository for structure reference.\n5.  **Generate/Update Markdown Content:**\n    * **Summarization:** Create a concise summary of the Notion article's key points.\n    * **Formatting:**\n        * Apply the formatting and style observed in the Example Blog Entry, ensuring adherence to the archetype.\n        * Begin the content with a link to the original article: `[Original Article]({{ $('Global').item.json.input.property_url }})`.\n        * Insert the summary into the blog post's main body.\n        * **Update Considerations:**\n            * For updates, make minimal changes, primarily focusing on updating the article content.\n            * Maintain the existing structure (number of sections, etc.).\n            * Images url can be obtained from the Notion article\n    * **Content Style Guide:**\n        * **Links:** Use descriptive titles for links instead of bare URLs.\n        * **Keywords:** Highlight important keywords in the summary using bold text (`**keyword**`).\n        * **Pronouns:** Write in the first pronon \"I\" when describing your writing and use \"you\" when addressing the reader.\n6.  **Create or Update GitHub Blog:**\n    * **New Entry:** Create a new file named `{YYYY-MM-DD}-{title-slug}.md`.\n    * **Update:** update the existing file.\n7.  **Submit Pull Request:**\n    * Submit a pull request to the repository owner for review and merging.\n    * **Branch Name:** the Github branch to use when submitting content should be provided by the previous Agent\n    * **Pull Request Creation Error:** if creating a pull request fails, do not retry; it likely indicates an existing pull request.\n    * **On Update:** Always create and submit a merge request even if minimal changes where made, inform me in the body of the merge request if minimal changes where made.\n8.  **Hand Off:**\n    * The result of this process is to be handed off to the next AI agent in the chain.\n\n**Key Clarifications:**\n\n* **Filename Convention:** Strictly adhere to `{YYYY-MM-DD}-{title-slug}.md` for all blog entries.\n* **Create vs Update:** Use the correct tools for creating new entries and updating existing ones.\n* **Minimal Updates:** Preserve the original structure and make only necessary content updates.\n* **Focus on Content:** Prioritize summarizing and formatting article content over coding.\n* **Edit Blog Article Error**: If getting the error \"The resource you are requesting could not be found\" try creating a new entry instead\n* **Pull Request Creation error:** if creating a pull request faild do not try again it mostlikely meant that it already exists.\n* **date**: use publication date, not creation date",
+          "systemMessage": "=**Role and Goal:**\n\nYou are my portfolio's editorial assistant, automating the update of my GitHub portfolio with new articles from my Notion database. You will format these articles into Markdown blog entries, focusing on content summarization and style consistency, without writing code.\n\n**Outcome:**\n\n* Provide the merge request URL created for review, containing the new or updated blog entry.\n\n**Workflow:**\n\n1.  **Check for Existing Blog Entry:**\n    * Retrieve the contents of `website/content/english/blogs`.\n    * Determine if a file named `{YYYY-MM-DD}-{title-slug}.md` exists.\n        * If it exists, this is an update. Retrieve the file for modification.\n        * If not, this is a new entry.\n2.  **Fetch Notion Article Content:**\n    * Use the provided Notion article ID (`{{ $('Global').item.json.input.id }}`) to fetch the full article content.\n3.  **Retrieve Example Blog Entry:**\n    * Fetch an existing example blog entry from the repository to understand the desired Markdown structure and style.\n4.  **Retrieve Blog Template (Hugo Archetype):**\n    * Fetch the base blog template (Hugo archetype) from the designated GitHub repository for structure reference.\n5.  **Generate/Update Markdown Content:**\n    * **Summarization:** Create a concise summary of the Notion article's key points.\n    * **Formatting:**\n        * Apply the formatting and style observed in the Example Blog Entry, ensuring adherence to the archetype.\n        * Begin the content with a link to the original article: `[Original Article]({{ $('Global').item.json.input.property_url }})`.\n        * Insert the summary into the blog post's main body.\n        * Insert reference links found in the article\n        * **Update Considerations:**\n            * For updates, make minimal changes, primarily focusing on updating the article content.\n            * Maintain the existing structure (number of sections, etc.).\n            * Images url can be obtained from the Notion article\n    * **Content Style Guide:**\n        * **Links:** Use descriptive titles for links instead of bare URLs.\n        * **Keywords:** Highlight important keywords in the summary using bold text (`**keyword**`).\n        * **Pronouns:** Write in the first pronon \"I\" when describing your writing and use \"you\" when addressing the reader.\n6.  **Create or Update GitHub Blog:**\n    * **New Entry:** Create a new file named `{YYYY-MM-DD}-{title-slug}.md`.\n    * **Update:** update the existing file.\n7.  **Submit Pull Request:**\n    * Submit a pull request to the repository owner for review and merging.\n    * **Branch Name:** the Github branch to use when submitting content should be provided by the previous Agent\n    * **Pull Request Creation Error:** if creating a pull request fails, do not retry; it likely indicates an existing pull request.\n    * **On Update:** Always create and submit a merge request even if minimal changes where made, inform me in the body of the merge request if minimal changes where made.\n8.  **Hand Off:**\n    * The result of this process is to be handed off to the next AI agent in the chain.\n\n**Key Clarifications:**\n\n* **Filename Convention:** Strictly adhere to `{YYYY-MM-DD}-{title-slug}.md` for all blog entries.\n* **Create vs Update:** Use the correct tools for creating new entries and updating existing ones.\n* **Minimal Updates:** Preserve the original structure and make only necessary content updates.\n* **Focus on Content:** Prioritize summarizing and formatting article content over coding.\n* **Edit Blog Article Error**: If getting the error \"The resource you are requesting could not be found\" try creating a new entry instead\n* **Pull Request Creation error:** if creating a pull request faild do not try again it mostlikely meant that it already exists.\n* **date**: use publication date, not creation date",
           "returnIntermediateSteps": true
         }
       },
@@ -536,8 +559,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
       "typeVersion": 1.1,
       "position": [
-        -180,
-        -340
+        -140,
+        -180
       ],
       "id": "f55c4c0b-8431-4133-a4e6-4b201c195898",
       "name": "Create New Git Branch",
@@ -568,7 +591,7 @@
       "typeVersion": 1,
       "position": [
         -700,
-        -560
+        -540
       ],
       "id": "9a066d72-799e-4954-a791-374673c3f700",
       "name": "GitHub",
@@ -609,7 +632,7 @@
       "typeVersion": 3.4,
       "position": [
         -820,
-        -560
+        -540
       ],
       "id": "1c324a3b-fc86-445c-8d21-08fb828125ac",
       "name": "Global"
@@ -777,8 +800,8 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -1460,
-        -860
+        -1480,
+        -840
       ],
       "typeVersion": 1,
       "id": "99660de8-0cd8-4740-9bc2-9a3ffe901001",
@@ -803,7 +826,7 @@
       "typeVersion": 1.1,
       "position": [
         -320,
-        -340
+        -180
       ],
       "id": "2bc680df-0bf2-4432-9cc1-eac5d52b2789",
       "name": "List Git branches",
@@ -848,22 +871,8 @@
     },
     {
       "parameters": {
-        "sessionIdType": "customKey",
-        "sessionKey": "={{ $('Global').item.json.input.id }}"
-      },
-      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
-      "typeVersion": 1.3,
-      "position": [
-        440,
-        -400
-      ],
-      "id": "ebfc4aae-2390-4aca-bda4-beff4d855475",
-      "name": "Window Buffer Memory"
-    },
-    {
-      "parameters": {
         "content": "## Pre-workflow\n",
-        "height": 460,
+        "height": 620,
         "width": 620,
         "color": 4
       },
@@ -900,8 +909,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -480,
-        -340
+        -500,
+        -400
       ],
       "id": "32dc1863-cbb5-4d19-aab5-6bb452485cf4",
       "name": "Google Gemini Flash Lite",
@@ -939,8 +948,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.2,
       "position": [
-        -40,
-        -340
+        -60,
+        -380
       ],
       "id": "1e1ec5c2-73e2-46c8-b9ae-7eac78ebd9e0",
       "name": "Structured Output Parser"
@@ -1010,6 +1019,80 @@
       ],
       "id": "6c694d04-0641-49b4-9b1e-bca0e130c846",
       "name": "If"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4bd8656d-a3be-4c9c-8f3a-7b02a471c6bb",
+              "leftValue": "={{ $json['Published Date'] }}",
+              "rightValue": "=null",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1260,
+        -560
+      ],
+      "id": "4e21bc88-0d59-4035-a6f9-b8bc6e033581",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Global').item.json.input.id }}-2"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        480,
+        -400
+      ],
+      "id": "75e5934c-9b40-46e0-be64-bdfc8504cd5b",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "85lAUCQ4Q6fnhom4",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Global').item.json.input.id }}-1"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        -380,
+        -400
+      ],
+      "id": "ca9ff2af-3a98-430d-90c1-ce0e36443bdc",
+      "name": "Postgres Chat Memory1",
+      "credentials": {
+        "postgres": {
+          "id": "85lAUCQ4Q6fnhom4",
+          "name": "Postgres account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -1018,9 +1101,9 @@
   },
   "staticData": {
     "node:Notion Trigger": {
-      "lastTimeChecked": "2025-03-10T14:30:00.000Z",
+      "lastTimeChecked": "2025-03-10T21:45:00.000Z",
       "possibleDuplicates": [
-        "40a10201-7eb0-46c5-a4cf-f44dd5430df6"
+        "2b61e3cf-d269-4fc1-8abd-7a8fa2a094f1"
       ]
     },
     "node:Schedule Trigger": {
@@ -1029,6 +1112,6 @@
   },
   "tags": [],
   "triggerCount": 2,
-  "updatedAt": "2025-03-05T17:59:39.000Z",
-  "versionId": "3a0f9f94-e247-4ac8-ad61-269d4be21365"
+  "updatedAt": "2025-03-10T19:54:13.000Z",
+  "versionId": "d8113bc7-b090-4633-beae-fbb46cc8cc48"
 }
