@@ -1101,9 +1101,10 @@
   },
   "staticData": {
     "node:Notion Trigger": {
-      "lastTimeChecked": "2025-03-10T21:45:00.000Z",
+      "lastTimeChecked": "2025-03-11T22:45:00.000Z",
       "possibleDuplicates": [
-        "2b61e3cf-d269-4fc1-8abd-7a8fa2a094f1"
+        "a38e41d5-0a1f-42de-86e7-31ebcc7a552e",
+        "1c426908-0ab4-4e84-b756-c2f5c7343ffd"
       ]
     },
     "node:Schedule Trigger": {
