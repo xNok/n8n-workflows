@@ -674,7 +674,7 @@
         "method": "POST",
         "url": "={{ $('GitHub').item.json.url }}/pulls",
         "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "githubApi",
+        "nodeCredentialType": "githubOAuth2Api",
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={\n  \"title\": \"{TITLE}\",\n  \"body\": \"{BODY}\",\n  \"head\": \"{NEW-BRANCH-NAME}\",\n  \"base\": \"{BASE-BRANCH-NAME}\"\n}",
@@ -1156,7 +1156,7 @@
   },
   "staticData": {
     "node:Notion Trigger": {
-      "lastTimeChecked": "2025-03-15T21:45:00.000Z",
+      "lastTimeChecked": "2025-03-16T23:03:00.000Z",
       "possibleDuplicates": [
         "a38e41d5-0a1f-42de-86e7-31ebcc7a552e",
         "1c426908-0ab4-4e84-b756-c2f5c7343ffd"
@@ -1168,6 +1168,6 @@
   },
   "tags": [],
   "triggerCount": 2,
-  "updatedAt": "2025-03-12T10:23:55.000Z",
-  "versionId": "04e1eedf-5a0b-4bc5-8359-1cdc1026f43d"
+  "updatedAt": "2025-03-16T23:03:19.000Z",
+  "versionId": "0e316470-c4b6-4ad5-a9b1-318cf16f3c86"
 }
