@@ -1,0 +1,76 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-03-16T21:20:33.818Z",
+  "id": "PYOo86ENPpospQ1D",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "AI contributor",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "665dd118-71fc-4a86-a4c5-0d5eabb0a3a5",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "owner": {
+          "__rl": true,
+          "value": "xNok",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "infra-bootstrap-tools",
+          "mode": "name"
+        },
+        "title": "test",
+        "labels": [],
+        "assignees": []
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        220,
+        0
+      ],
+      "id": "4cbadf83-0399-4302-8b06-8536819e5849",
+      "name": "GitHub",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "Tb9xMUfth0tI129o",
+          "name": "GitHub xNok Crew AI"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-03-16T23:42:10.000Z",
+  "versionId": "8ec05627-63b5-4f39-9927-acebd781371d"
+}
