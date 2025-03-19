@@ -8,11 +8,6 @@
             "node": "If1",
             "type": "main",
             "index": 0
-          },
-          {
-            "node": "Loop Over Items",
-            "type": "main",
-            "index": 0
           }
         ]
       ]
@@ -289,29 +284,6 @@
           {
             "node": "AI Agent Branch Creator",
             "type": "ai_memory",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Loop Over Items": {
-      "main": [
-        [],
-        [
-          {
-            "node": "Replace Me",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Replace Me": {
-      "main": [
-        [
-          {
-            "node": "Loop Over Items",
-            "type": "main",
             "index": 0
           }
         ]
@@ -682,10 +654,12 @@
           "values": [
             {
               "name": "TITLE",
+              "description": "JSON compatible string representing the pull request title",
               "type": "string"
             },
             {
               "name": "BODY",
+              "description": "JSON compatible string representing the pull request body ",
               "type": "string"
             },
             {
@@ -1124,30 +1098,6 @@
           "name": "Postgres account"
         }
       }
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitInBatches",
-      "typeVersion": 3,
-      "position": [
-        -1120,
-        -560
-      ],
-      "id": "675159c1-3e58-48c3-bbbb-e58e89487134",
-      "name": "Loop Over Items"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.noOp",
-      "name": "Replace Me",
-      "typeVersion": 1,
-      "position": [
-        -820,
-        -480
-      ],
-      "id": "86fdba92-99a2-4b27-a1ec-b02bc4a17a0c"
     }
   ],
   "pinData": {},
@@ -1156,7 +1106,7 @@
   },
   "staticData": {
     "node:Notion Trigger": {
-      "lastTimeChecked": "2025-03-18T23:38:00.000Z",
+      "lastTimeChecked": "2025-03-19T00:45:00.000Z",
       "possibleDuplicates": [
         "a38e41d5-0a1f-42de-86e7-31ebcc7a552e",
         "1c426908-0ab4-4e84-b756-c2f5c7343ffd"
@@ -1168,6 +1118,6 @@
   },
   "tags": [],
   "triggerCount": 2,
-  "updatedAt": "2025-03-16T23:03:19.000Z",
-  "versionId": "0e316470-c4b6-4ad5-a9b1-318cf16f3c86"
+  "updatedAt": "2025-03-19T00:45:52.000Z",
+  "versionId": "3064e3c8-224f-4d1d-9244-eef068847b2f"
 }
