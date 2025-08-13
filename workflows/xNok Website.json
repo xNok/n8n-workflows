@@ -316,8 +316,8 @@
       "type": "n8n-nodes-base.notionTrigger",
       "typeVersion": 1,
       "position": [
-        40,
-        280
+        48,
+        288
       ],
       "id": "c5e6a3c6-3a8d-4a94-a306-61b656464fdd",
       "name": "Notion Trigger",
@@ -381,7 +381,7 @@
       "type": "n8n-nodes-base.githubTool",
       "typeVersion": 1,
       "position": [
-        1820,
+        1824,
         800
       ],
       "id": "0b04de5f-3d81-46de-87fb-fb37e940471e",
@@ -407,8 +407,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        2020,
-        280
+        2032,
+        288
       ],
       "id": "ca9d5a3e-31f9-48b1-a906-a395b75b3f75",
       "name": "AI Agent - Content Editor",
@@ -444,7 +444,7 @@
       "type": "n8n-nodes-base.githubTool",
       "typeVersion": 1,
       "position": [
-        2220,
+        2224,
         800
       ],
       "id": "69090f9a-877e-41c0-9aa9-c98ecff7f3f6",
@@ -486,7 +486,7 @@
       "type": "n8n-nodes-base.githubTool",
       "typeVersion": 1,
       "position": [
-        2380,
+        2384,
         800
       ],
       "id": "2a975184-4d0a-4f6f-a282-7a7214dda131",
@@ -523,7 +523,7 @@
       "type": "n8n-nodes-base.githubTool",
       "typeVersion": 1,
       "position": [
-        1720,
+        1728,
         800
       ],
       "id": "b32160d3-edc6-443a-994a-38290b474d42",
@@ -562,8 +562,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
       "typeVersion": 1.1,
       "position": [
-        1340,
-        660
+        1344,
+        672
       ],
       "id": "a26ca6b4-6a6c-4e27-b330-96c0ee45fe92",
       "name": "Create New Git Branch",
@@ -593,8 +593,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        780,
-        300
+        784,
+        304
       ],
       "id": "6fd91adf-6fc7-4592-8abf-56369e34e2cd",
       "name": "GitHub",
@@ -635,8 +635,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        660,
-        300
+        672,
+        304
       ],
       "id": "fd4a2fcf-fc7f-4af8-95c2-27a919ebd030",
       "name": "Global"
@@ -677,7 +677,7 @@
       "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
       "typeVersion": 1.1,
       "position": [
-        2520,
+        2528,
         800
       ],
       "id": "82e7146d-d848-414c-ad1c-c321f32ff58e",
@@ -692,7 +692,7 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=Article data:\n{{ $('Global').item.json.toJsonString() }}\n{{ $('Global').item.json.input.name }}\nRepository data\n{{ $('GitHub').item.json.toJsonString() }}\n\n",
+        "text": "=Article data:\n{{ $('Global').item.json.toJsonString() }}\n\nRepository data\n{{ $('GitHub').item.json.toJsonString() }}\n\n",
         "hasOutputParser": true,
         "options": {
           "systemMessage": "=1.  **Retrieve Main Branch SHA:**\n    * Obtain the current SHA (Secure Hash Algorithm) of the `main` branch in the designated GitHub repository. This is essential for creating a new branch from the latest commit.\n\n2 **Verify if similar**\n  * if a similar banche already exist especially starting with the same date it is safe to assume that a branch was already created for this articles, if so simply inform the next agent of the branche name. (Branches are provided in in the repos data provided)\n\n3.  **Create New Branch:**\n    * Generate a new branch with the following naming convention: `{YYYY-MM-DD}-{title-slug}`.\nfriendly slug derived from the article's title (e.g., replace spaces with hyphens, lowercase all letters).\n    * Create this new branch based on the retrieved `main` branch SHA.\n\n**Key Clarifications:**\n* *Branch Creation failure*: if you are unable to create the branch, it might already exist, try to get the branch with that name to confirm\n* *Branch name length**: when it makes sense remove details like authore name and where/when it was published (eg.  | by Alexandre Couëdelo | Oct, 2022 | FAUN Publication)\n* **date**: use publication date, not creation date",
@@ -702,8 +702,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        1160,
-        280
+        1168,
+        288
       ],
       "id": "160a5070-d554-4095-a244-073223de5283",
       "name": "AI Agent Branch Creator"
@@ -716,8 +716,8 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1660,
-        740
+        1664,
+        752
       ],
       "typeVersion": 1,
       "id": "bbe67daf-c2ee-4072-a199-f5234a8ffadf",
@@ -731,8 +731,8 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2180,
-        740
+        2192,
+        752
       ],
       "typeVersion": 1,
       "id": "78724f71-8430-44b7-a463-af7ea354f585",
@@ -745,7 +745,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        420,
+        432,
         80
       ],
       "id": "9b35e564-f885-481d-9a9e-33d30bdac870",
@@ -759,7 +759,7 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        300,
+        304,
         80
       ],
       "id": "583ce136-6425-49b4-94c8-17aefc0c6cd3",
@@ -782,7 +782,7 @@
       "type": "n8n-nodes-base.notion",
       "typeVersion": 2.2,
       "position": [
-        180,
+        192,
         80
       ],
       "id": "3945514c-a220-4e41-a17c-185d01ee8594",
@@ -827,8 +827,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
       "typeVersion": 1.1,
       "position": [
-        1160,
-        660
+        1168,
+        672
       ],
       "id": "8b9a6144-6f32-4075-bb2a-739bf9509d6e",
       "name": "List Git branches",
@@ -859,7 +859,7 @@
       "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
       "typeVersion": 1.1,
       "position": [
-        2020,
+        2032,
         800
       ],
       "id": "33d6f521-bb93-4b0c-8b71-9e33a56fd3dd",
@@ -881,7 +881,7 @@
       "type": "n8n-nodes-base.stickyNote",
       "position": [
         960,
-        200
+        208
       ],
       "typeVersion": 1,
       "id": "a1175ab4-efb5-47c1-81f5-ab53365a22a6",
@@ -896,8 +896,8 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1620,
-        200
+        1632,
+        208
       ],
       "typeVersion": 1,
       "id": "e77a7fed-8f78-4fbc-acd9-2db3090c0282",
@@ -911,8 +911,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        980,
-        440
+        992,
+        448
       ],
       "id": "d47b6c37-7faf-4956-9e0a-494f26672c6c",
       "name": "Google Gemini Flash Lite",
@@ -925,14 +925,13 @@
     },
     {
       "parameters": {
-        "modelName": "models/gemini-2.5-flash",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        1800,
-        440
+        1808,
+        448
       ],
       "id": "1fbf4bd6-6b06-43c3-9fa0-1a25de62f63a",
       "name": "Google Gemini Flash",
@@ -950,8 +949,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.2,
       "position": [
-        1420,
-        460
+        1424,
+        464
       ],
       "id": "ed5c429f-d463-47f8-9de9-2f434bddab00",
       "name": "Structured Output Parser"
@@ -963,8 +962,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.2,
       "position": [
-        2360,
-        420
+        2368,
+        432
       ],
       "id": "7cd27994-4ca5-4510-bd4a-29e218cd18bd",
       "name": "Structured Output Parser1"
@@ -982,7 +981,7 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        40,
+        48,
         80
       ],
       "id": "55f376b3-fb76-4ca9-a0c1-ea17cf46d251",
@@ -1016,7 +1015,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        620,
+        624,
         80
       ],
       "id": "c350f12a-0332-4961-a8c4-eb9b7bc6cd36",
@@ -1050,8 +1049,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        220,
-        280
+        224,
+        288
       ],
       "id": "d0316ac1-b179-4442-b8bc-8db6eab33c4f",
       "name": "If1"
@@ -1064,8 +1063,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
       "position": [
-        1960,
-        440
+        1968,
+        448
       ],
       "id": "70c1e57a-9039-4bf5-952b-722c1d1ae2c9",
       "name": "Postgres Chat Memory",
@@ -1084,8 +1083,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
       "position": [
-        980,
-        660
+        992,
+        672
       ],
       "id": "6106ad12-2616-46c3-bb8a-c4534e74ef2d",
       "name": "Postgres Chat Memory1",
@@ -1106,14 +1105,11 @@
       "recurrenceRules": []
     },
     "node:Notion Trigger": {
-      "lastTimeChecked": "2025-08-12T21:45:00.000Z",
-      "possibleDuplicates": [
-        "9d4fbe17-4728-4bc6-97cb-0cd1f2b9faca"
-      ]
+      "lastTimeChecked": "2025-08-13T14:56:00.000Z"
     }
   },
   "tags": [],
   "triggerCount": 2,
-  "updatedAt": "2025-06-25T23:26:37.000Z",
-  "versionId": "1d141118-571b-4a8a-bc12-3f9bcad196e0"
+  "updatedAt": "2025-08-13T14:56:01.000Z",
+  "versionId": "7ecb6bd2-b907-4e2d-beb6-ecb51489e730"
 }
