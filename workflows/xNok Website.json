@@ -905,7 +905,7 @@
     },
     {
       "parameters": {
-        "modelName": "models/gemini-2.5-flash-lite-preview-06-17",
+        "modelName": "models/gemini-2.0-flash-lite",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
@@ -1105,11 +1105,11 @@
       "recurrenceRules": []
     },
     "node:Notion Trigger": {
-      "lastTimeChecked": "2025-08-28T22:00:00.000Z"
+      "lastTimeChecked": "2025-08-29T15:52:00.000Z"
     }
   },
   "tags": [],
   "triggerCount": 2,
-  "updatedAt": "2025-08-13T14:56:01.000Z",
-  "versionId": "7ecb6bd2-b907-4e2d-beb6-ecb51489e730"
+  "updatedAt": "2025-08-29T15:52:10.000Z",
+  "versionId": "dc7fd4f1-bc81-4e3b-a47c-bc71a6e92fce"
 }
