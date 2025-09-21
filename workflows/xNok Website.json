@@ -1100,12 +1100,21 @@
   "settings": {
     "executionOrder": "v1"
   },
+  "shared": [
+    {
+      "createdAt": "2025-05-28T09:31:10.638Z",
+      "updatedAt": "2025-05-28T09:31:10.638Z",
+      "role": "workflow:owner",
+      "workflowId": "uDaA2STkPRAnf0aw",
+      "projectId": "pEasCL2U1IIauWlx"
+    }
+  ],
   "staticData": {
     "node:Schedule Trigger": {
       "recurrenceRules": []
     },
     "node:Notion Trigger": {
-      "lastTimeChecked": "2025-09-19T22:00:00.000Z"
+      "lastTimeChecked": "2025-09-20T22:00:00.000Z"
     }
   },
   "tags": [],
