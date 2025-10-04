@@ -1,0 +1,677 @@
+{
+  "active": false,
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub MCP Client": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion MCP Client": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert row in Data table": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If row exists in Data table": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion Trigger": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Global": {
+      "main": [
+        [
+          {
+            "node": "GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Randomizer": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Published Articles": {
+      "main": [
+        [
+          {
+            "node": "Combines list of Published Articles",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Published Articles",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Global",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Published Articles",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Global",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Combines list of Published Articles": {
+      "main": [
+        [
+          {
+            "node": "Randomizer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-10-04T11:40:38.258Z",
+  "id": "1i4mEOb6QVXhTbFn",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "xNok Website V2",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -704,
+        -560
+      ],
+      "id": "7c674829-024f-4728-b523-0a7669c7eca8",
+      "name": "When chat message received",
+      "webhookId": "9aa8e75b-d71d-4373-a140-2a4f93814dbf"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -176,
+        -560
+      ],
+      "id": "58bd6c66-427e-4576-9192-9d7b0e2d969a",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -464,
+        -240
+      ],
+      "id": "255f0265-e776-4e0a-b1d2-c44973998aff",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "1fjSF4AQTr66EKc3",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        -304,
+        -240
+      ],
+      "id": "5a33632c-2a2d-498f-8dcb-ab49f5b0a54f",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "L567D9TEFo7ESa08",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "endpointUrl": "https://api.githubcopilot.com/mcp/",
+        "authentication": "bearerAuth",
+        "include": "selected",
+        "includeTools": [
+          "get_file_contents",
+          "get_pull_request",
+          "get_pull_request_diff",
+          "list_branches",
+          "list_issues",
+          "list_pull_requests",
+          "search_code",
+          "search_pull_requests"
+        ],
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.2,
+      "position": [
+        -80,
+        -240
+      ],
+      "id": "27ad06e3-46a3-46f0-afac-bbe475dd461f",
+      "name": "GitHub MCP Client",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "T0UhF4CDhEaFWmLy",
+          "name": "GitHub MCP - Bearer Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "endpointUrl": "http://mcphub_mcphub:3000/mcp/notion-mcp",
+        "authentication": "bearerAuth",
+        "include": "selected",
+        "includeTools": [
+          "notion-mcp-API-retrieve-a-page",
+          "notion-mcp-API-post-database-query",
+          "notion-mcp-API-retrieve-a-block",
+          "notion-mcp-API-retrieve-a-database",
+          "notion-mcp-API-retrieve-a-page-property",
+          "notion-mcp-API-patch-page"
+        ],
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.2,
+      "position": [
+        96,
+        -240
+      ],
+      "id": "75ad9094-1190-4fed-97e1-9d31c342f4e8",
+      "name": "Notion MCP Client",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "HFPSSgOojfCADypv",
+          "name": "MCPHUB Bearer Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "KaAFlsiXj25q6Xj2",
+          "mode": "list",
+          "cachedResultName": "xNok Website",
+          "cachedResultUrl": "/projects/pEasCL2U1IIauWlx/datatables/KaAFlsiXj25q6Xj2"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "notionPageID": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('notionPageID', ``, 'string') }}",
+            "websiteFileName": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('websiteFileName', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "notionPageID",
+              "displayName": "notionPageID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "websiteFileName",
+              "displayName": "websiteFileName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTableTool",
+      "typeVersion": 1,
+      "position": [
+        272,
+        -240
+      ],
+      "id": "24af6616-329f-4fd4-88e7-a7ff8ae0c7de",
+      "name": "Insert row in Data table"
+    },
+    {
+      "parameters": {
+        "operation": "rowExists",
+        "dataTableId": {
+          "__rl": true,
+          "value": "KaAFlsiXj25q6Xj2",
+          "mode": "list",
+          "cachedResultName": "xNok Website",
+          "cachedResultUrl": "/projects/pEasCL2U1IIauWlx/datatables/KaAFlsiXj25q6Xj2"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "notionPageID",
+              "keyValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('conditions0_Value', ``, 'string') }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.dataTableTool",
+      "typeVersion": 1,
+      "position": [
+        432,
+        -240
+      ],
+      "id": "399f6ecb-a516-4e12-ac52-cd32aa13d4cc",
+      "name": "If row exists in Data table"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 15,
+              "unit": "minutes"
+            }
+          ]
+        },
+        "event": "pagedUpdatedInDatabase",
+        "databaseId": {
+          "__rl": true,
+          "value": "57fedf47-e462-48bd-a400-5adf88ecf008",
+          "mode": "list",
+          "cachedResultName": "Published Articles",
+          "cachedResultUrl": "https://www.notion.so/57fedf47e46248bda4005adf88ecf008"
+        }
+      },
+      "type": "n8n-nodes-base.notionTrigger",
+      "typeVersion": 1,
+      "position": [
+        -2000,
+        -544
+      ],
+      "id": "221b5e31-e128-4e26-a95f-73f247fec0a3",
+      "name": "Notion Trigger",
+      "credentials": {
+        "notionApi": {
+          "id": "NG1qfzgJkvTzodqb",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "repository",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "={{ $json.owner }}",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "={{ $json.repo }}",
+          "mode": "name"
+        }
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        -976,
+        -560
+      ],
+      "id": "8cbebdd3-92f9-40a3-adcc-3d4148c263aa",
+      "name": "GitHub",
+      "webhookId": "0c3abaff-7470-425c-9701-af27bf1d17bc",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "3UvuWq60yLsVEaPS",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "492df5a6-f329-4b77-b885-bd5b169674e0",
+              "name": "owner",
+              "value": "xNok",
+              "type": "string"
+            },
+            {
+              "id": "81a70dab-7609-457e-9269-35a91f893393",
+              "name": "repo",
+              "value": "xNok",
+              "type": "string"
+            },
+            {
+              "id": "8ab6ca30-5e58-4a12-9108-71ca9225f5a8",
+              "name": "input",
+              "value": "={{ $json }}",
+              "type": "object"
+            },
+            {
+              "id": "26ba6631-e371-4a27-8aa4-0ae21b6ba98c",
+              "name": "Notion Database id",
+              "value": "57fedf47e46248bda4005adf88ecf008",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1120,
+        -560
+      ],
+      "id": "ee47c033-cddd-4d63-ac1e-a8e425287902",
+      "name": "Global"
+    },
+    {
+      "parameters": {
+        "jsCode": "var index = Math.floor(Math.random() * $input.first().json.data.length);\nreturn $input.first().json.data[index]"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1504,
+        -816
+      ],
+      "id": "35423bfa-8edd-4c6b-9f13-88caf1c7b3ab",
+      "name": "Randomizer"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "57fedf47-e462-48bd-a400-5adf88ecf008",
+          "mode": "list",
+          "cachedResultName": "Published Articles",
+          "cachedResultUrl": "https://www.notion.so/57fedf47e46248bda4005adf88ecf008"
+        },
+        "returnAll": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        -1840,
+        -816
+      ],
+      "id": "de688901-257e-4925-9cea-a7de7b6f3ade",
+      "name": "Published Articles",
+      "credentials": {
+        "notionApi": {
+          "id": "NG1qfzgJkvTzodqb",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Preparing data before sending it to the AI",
+        "height": 500,
+        "width": 1220
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2048,
+        -896
+      ],
+      "typeVersion": 1,
+      "id": "09801b03-b5ae-41dd-aaf6-0b7a9da00a7b",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 18
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -2000,
+        -816
+      ],
+      "id": "1cb2b18a-430f-4274-9623-c2d691209583",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4bd8656d-a3be-4c9c-8f3a-7b02a471c6bb",
+              "leftValue": "={{ $json.property_published_date }}",
+              "rightValue": "=null",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1376,
+        -816
+      ],
+      "id": "1adda161-6b92-4fe4-9ab1-00749e251374",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4bd8656d-a3be-4c9c-8f3a-7b02a471c6bb",
+              "leftValue": "={{ $json['Published Date'] }}",
+              "rightValue": "=null",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1408,
+        -544
+      ],
+      "id": "f9e65e8f-4a74-48f1-8e43-4e515c6ffeb7",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -1696,
+        -816
+      ],
+      "id": "ec0abadf-8e5f-438e-8506-2ba60ef09dbb",
+      "name": "Combines list of Published Articles"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-10-04T11:40:38.271Z",
+      "updatedAt": "2025-10-04T11:40:38.271Z",
+      "role": "workflow:owner",
+      "workflowId": "1i4mEOb6QVXhTbFn",
+      "projectId": "pEasCL2U1IIauWlx"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-10-04T16:31:16.000Z",
+  "versionId": "ffd09ef5-3a00-4ef5-bc40-b56e57274022"
+}
