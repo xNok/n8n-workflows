@@ -1,17 +1,6 @@
 {
   "active": false,
   "connections": {
-    "When chat message received": {
-      "main": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Google Gemini Chat Model": {
       "ai_languageModel": [
         [
@@ -46,17 +35,6 @@
       ]
     },
     "Notion MCP Client": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Insert row in Data table": {
       "ai_tool": [
         [
           {
@@ -173,6 +151,28 @@
           }
         ]
       ]
+    },
+    "GitHub": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upsert row(s) in Data table": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-10-04T11:40:38.258Z",
@@ -185,26 +185,17 @@
   "nodes": [
     {
       "parameters": {
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
-      "typeVersion": 1.3,
-      "position": [
-        -704,
-        -560
-      ],
-      "id": "7c674829-024f-4728-b523-0a7669c7eca8",
-      "name": "When chat message received",
-      "webhookId": "9aa8e75b-d71d-4373-a140-2a4f93814dbf"
-    },
-    {
-      "parameters": {
-        "options": {}
+        "promptType": "define",
+        "text": "=notion_page_id:  {{ $('Global').item.json.input.id }}\n\narticle_name: {{ $('Global').item.json.input.name }}\narticle_published_date: {{ $('Global').item.json.input.property_published_date.start }}\n\nwebsite_repository_url: {{ $json.url }}\nwebsite_article_path: website/content/english/blogs",
+        "options": {
+          "systemMessage": "# Role: Editorial Assistant for Personal Website\n\nYour goal is to automate publishing summaries of my Notion articles to my personal website via GitHub. You will determine if an article is new or an update, create/update the necessary Markdown file, and submit it for review as a pull request.\n\n---\n\n### Primary Task\n\nBased on the Notion page ID, you will:\n1.  Check if the article has been published before by using the provided data table.\n2.  Create a branch name and determine the correct filename.\n3.  Fetch the article, write a concise **summary**, and format it into a Markdown file.\n4.  Commit the file to the new branch and create a pull request.\n\n---\n\n### Inputs You Will Receive\n\n* **`notion_page_id`**: The ID of the Notion page to process.\n* **Data Table Access**: Tools to query a mapping of `notion_page_id` to existing `markdown_filename`.\n\n---\n\n### Workflow\n\n1.  **Lookup & Setup**:\n    * **Check Data Table**: Query the data table with the `notion_page_id`.\n    * **If a match is found**:\n        * This is an **update**.\n        * Use the `markdown_filename` from the data table.\n        * Create a branch name like `chore/update-{slug}`.\n    * **If no match is found**:\n        * This is a **new post**.\n        * Fetch the article title from Notion to create a title slug.\n        * Generate a new filename: `{YYYY-MM-DD}-{title-slug}.md`.\n        * Create a branch name like `feat/add-{slug}`.\n\n2.  **Fetch Content**:\n    * Use the `notion_page_id` to retrieve the full article content.\n    * If this is an **update**, also fetch the existing Markdown file from the repository to understand its current structure.\n\n3.  **Generate Markdown Summary**:\n    * **Summarize**: Do not copy the article. Write a new, concise summary highlighting the key points.\n    * **Format**: Create the full Markdown file content according to the **Content & Style Guide** below.\n    * **For Updates**: Preserve the existing structure. Focus only on updating the content to reflect the latest version from Notion.\n\n4.  **Commit to GitHub**:\n    * Commit the new or updated Markdown file to the branch you created in Step 1.\n\n5.  **Create Pull Request**:\n    * Submit a pull request to the main branch.\n    * If you only made minimal changes during an update, note this in the pull request body.\n\n---\n\n### Content & Style Guide\n\n* **Focus**: The primary content must be a **summary**, not the full article text.\n* **Original Link**: Start the body of the post with a link to the original article: `[Original Article]({{ page.input.notion_page_url }})`.\n* **Pronouns**: Write from my perspective using \"I\". Address the reader as \"you\".\n* **Keywords**: Emphasize key terms and concepts by making them **bold**.\n* **Links**: Always use descriptive text for hyperlinks (e.g., `[Google's AI blog]` instead of the URL).\n* **Images & References**: Include images and reference links from the original Notion article within your summary.\n\n---\n\n### Critical Rules & Error Handling\n\n* **No Coding**: Your role is content and formatting, not writing code.\n* **Special Characters**: Ensure special characters in the title or content are properly escaped before creating the pull request to avoid errors.\n* **Always Create a PR**: For updates, create a pull request even if the changes are minor.\n\n---\n\n### Final Output\n\n* The URL of the merge request you created.\n* Update the Data Table with the mapping of `notion_page_id` to the defined `markdown_filename`",
+          "returnIntermediateSteps": true
+        }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        -176,
+        -368,
         -560
       ],
       "id": "58bd6c66-427e-4576-9192-9d7b0e2d969a",
@@ -218,8 +209,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -464,
-        -240
+        -640,
+        -320
       ],
       "id": "255f0265-e776-4e0a-b1d2-c44973998aff",
       "name": "Google Gemini Chat Model",
@@ -231,12 +222,15 @@
       }
     },
     {
-      "parameters": {},
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Global').item.json.input.id }}"
+      },
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
       "position": [
-        -304,
-        -240
+        -480,
+        -320
       ],
       "id": "5a33632c-2a2d-498f-8dcb-ab49f5b0a54f",
       "name": "Postgres Chat Memory",
@@ -260,15 +254,19 @@
           "list_issues",
           "list_pull_requests",
           "search_code",
-          "search_pull_requests"
+          "search_pull_requests",
+          "push_files",
+          "create_pull_request",
+          "create_or_update_file",
+          "create_branch"
         ],
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
       "typeVersion": 1.2,
       "position": [
-        -80,
-        -240
+        -384,
+        -144
       ],
       "id": "27ad06e3-46a3-46f0-afac-bbe475dd461f",
       "name": "GitHub MCP Client",
@@ -290,15 +288,15 @@
           "notion-mcp-API-retrieve-a-block",
           "notion-mcp-API-retrieve-a-database",
           "notion-mcp-API-retrieve-a-page-property",
-          "notion-mcp-API-patch-page"
+          "notion-mcp-API-get-block-children"
         ],
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
       "typeVersion": 1.2,
       "position": [
-        96,
-        -240
+        -224,
+        -144
       ],
       "id": "75ad9094-1190-4fed-97e1-9d31c342f4e8",
       "name": "Notion MCP Client",
@@ -308,58 +306,6 @@
           "name": "MCPHUB Bearer Auth"
         }
       }
-    },
-    {
-      "parameters": {
-        "dataTableId": {
-          "__rl": true,
-          "value": "KaAFlsiXj25q6Xj2",
-          "mode": "list",
-          "cachedResultName": "xNok Website",
-          "cachedResultUrl": "/projects/pEasCL2U1IIauWlx/datatables/KaAFlsiXj25q6Xj2"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "notionPageID": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('notionPageID', ``, 'string') }}",
-            "websiteFileName": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('websiteFileName', ``, 'string') }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "notionPageID",
-              "displayName": "notionPageID",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "websiteFileName",
-              "displayName": "websiteFileName",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.dataTableTool",
-      "typeVersion": 1,
-      "position": [
-        272,
-        -240
-      ],
-      "id": "24af6616-329f-4fd4-88e7-a7ff8ae0c7de",
-      "name": "Insert row in Data table"
     },
     {
       "parameters": {
@@ -383,8 +329,8 @@
       "type": "n8n-nodes-base.dataTableTool",
       "typeVersion": 1,
       "position": [
-        432,
-        -240
+        64,
+        -336
       ],
       "id": "399f6ecb-a516-4e12-ac52-cd32aa13d4cc",
       "name": "If row exists in Data table"
@@ -654,6 +600,76 @@
       ],
       "id": "ec0abadf-8e5f-438e-8506-2ba60ef09dbb",
       "name": "Combines list of Published Articles"
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "dataTableId": {
+          "__rl": true,
+          "value": "KaAFlsiXj25q6Xj2",
+          "mode": "list",
+          "cachedResultName": "xNok Website",
+          "cachedResultUrl": "/projects/pEasCL2U1IIauWlx/datatables/KaAFlsiXj25q6Xj2"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "notionPageID",
+              "keyValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('conditions0_Value', ``, 'string') }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "websiteFileName": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('websiteFileName', ``, 'string') }}",
+            "pullRequestURL": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('pullRequestURL', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "notionPageID",
+              "displayName": "notionPageID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "websiteFileName",
+              "displayName": "websiteFileName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "pullRequestURL",
+              "displayName": "pullRequestURL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "n8n-nodes-base.dataTableTool",
+      "typeVersion": 1,
+      "position": [
+        -96,
+        -336
+      ],
+      "id": "24af6616-329f-4fd4-88e7-a7ff8ae0c7de",
+      "name": "Upsert row(s) in Data table"
     }
   ],
   "pinData": {},
@@ -669,9 +685,16 @@
       "projectId": "pEasCL2U1IIauWlx"
     }
   ],
-  "staticData": null,
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    },
+    "node:Notion Trigger": {
+      "lastTimeChecked": "2025-10-05T19:20:00.000Z"
+    }
+  },
   "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2025-10-04T16:31:16.000Z",
-  "versionId": "ffd09ef5-3a00-4ef5-bc40-b56e57274022"
+  "triggerCount": 3,
+  "updatedAt": "2025-10-05T20:00:46.000Z",
+  "versionId": "5bbcba2f-2a3e-4de8-be0b-93fc820799cf"
 }
