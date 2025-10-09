@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
     "Google Gemini Chat Model": {
       "ai_languageModel": [
@@ -690,11 +690,11 @@
       "recurrenceRules": []
     },
     "node:Notion Trigger": {
-      "lastTimeChecked": "2025-10-05T19:20:00.000Z"
+      "lastTimeChecked": "2025-10-09T13:15:00.000Z"
     }
   },
   "tags": [],
-  "triggerCount": 3,
-  "updatedAt": "2025-10-05T20:00:46.000Z",
+  "triggerCount": 2,
+  "updatedAt": "2025-10-09T13:15:43.000Z",
   "versionId": "5bbcba2f-2a3e-4de8-be0b-93fc820799cf"
 }
