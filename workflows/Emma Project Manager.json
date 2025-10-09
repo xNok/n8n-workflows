@@ -1,0 +1,532 @@
+{
+  "active": false,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get a repository",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a repository": {
+      "main": [
+        [
+          {
+            "node": "AI Agent - Plan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub MCP Client": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent - Plan",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent - Plan",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model - Pro": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent - Plan",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model - Flash": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent - Plan",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent - Plan",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub MCP Client1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent - Do",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model - Pro1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent - Do",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model - Flash1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent - Do",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Chat Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent - Do",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent - Plan": {
+      "main": [
+        [
+          {
+            "node": "AI Agent - Do",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-10-09T13:18:54.844Z",
+  "id": "9NxJVrGSVPqntguB",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Emma Project Manager",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1536,
+        -128
+      ],
+      "id": "fb7db757-986c-4a7f-b1c2-f86e01aeaed3",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "repository",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "xNok",
+          "mode": "list",
+          "cachedResultName": "xNok",
+          "cachedResultUrl": "https://github.com/xNok"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "emma",
+          "mode": "name"
+        }
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        -1328,
+        -128
+      ],
+      "id": "7ea3a12b-8719-4294-9434-2be6b4448de3",
+      "name": "Get a repository",
+      "webhookId": "587579cc-160d-48b5-ba7c-63f93d3ae0f0",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "3UvuWq60yLsVEaPS",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "endpointUrl": "https://api.githubcopilot.com/mcp/",
+        "authentication": "bearerAuth",
+        "include": "selected",
+        "includeTools": [
+          "get_discussion",
+          "get_discussion_comments",
+          "get_file_contents",
+          "get_issue",
+          "get_issue_comments",
+          "get_latest_release",
+          "get_project_item",
+          "get_pull_request",
+          "get_pull_request_diff",
+          "get_pull_request_files",
+          "get_pull_request_review_comments",
+          "get_pull_request_reviews",
+          "get_pull_request_status",
+          "list_discussions",
+          "list_issues",
+          "list_project_items",
+          "list_projects",
+          "list_pull_requests",
+          "list_releases",
+          "list_sub_issues",
+          "search_code"
+        ],
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.2,
+      "position": [
+        -576,
+        48
+      ],
+      "id": "40e3fd16-cf1a-43c6-92ba-29163288289e",
+      "name": "GitHub MCP Client",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "T0UhF4CDhEaFWmLy",
+          "name": "GitHub MCP - Bearer Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"title\": \"AI Project Manager Output\",\n  \"description\": \"Schema to validate the structured output from the AI project manager agent.\",\n  \"type\": \"object\",\n  \"required\": [\n    \"assessment\",\n    \"actions\"\n  ],\n  \"properties\": {\n    \"assessment\": {\n      \"type\": \"object\",\n      \"description\": \"The AI's summary of the current project state.\",\n      \"required\": [\n        \"timestamp\",\n        \"status\",\n        \"summary\",\n        \"reviewed_documents\",\n        \"reviewed_summaries\"\n      ],\n      \"properties\": {\n        \"timestamp\": {\n          \"type\": \"string\",\n          \"format\": \"date-time\",\n          \"description\": \"ISO 8601 timestamp of when the assessment was made.\"\n        },\n        \"status\": {\n          \"type\": \"string\",\n          \"description\": \"The status of the assessment run.\",\n          \"enum\": [\n            \"complete\",\n            \"error\"\n          ]\n        },\n        \"summary\": {\n          \"type\": \"string\",\n          \"description\": \"A one-sentence summary of the project's current state.\"\n        },\n        \"reviewed_documents\": {\n          \"type\": \"array\",\n          \"description\": \"List of design document paths that were reviewed.\",\n          \"items\": {\n            \"type\": \"string\"\n          }\n        },\n        \"reviewed_summaries\": {\n          \"type\": \"array\",\n          \"description\": \"List of agent summary paths that were reviewed.\",\n          \"items\": {\n            \"type\": \"string\"\n          }\n        }\n      }\n    },\n    \"actions\": {\n      \"type\": \"object\",\n      \"description\": \"A list of proposed actions to be taken on GitHub.\",\n      \"required\": [\n        \"update_github_project\",\n        \"create_github_issue\",\n        \"follow_up_github_issue\"\n      ],\n      \"properties\": {\n        \"update_github_project\": {\n          \"type\": \"array\",\n          \"description\": \"Tasks to update on the GitHub project board.\",\n          \"items\": {\n            \"type\": \"object\",\n            \"required\": [\n              \"task_id\",\n              \"new_status\",\n              \"comment\"\n            ],\n            \"properties\": {\n              \"task_id\": {\n                \"type\": \"string\"\n              },\n              \"new_status\": {\n                \"type\": \"string\"\n              },\n              \"comment\": {\n                \"type\": \"string\"\n              }\n            }\n          }\n        },\n        \"create_github_issue\": {\n          \"type\": \"array\",\n          \"description\": \"New issues to be created.\",\n          \"items\": {\n            \"type\": \"object\",\n            \"required\": [\n              \"title\",\n              \"body\"\n            ],\n            \"properties\": {\n              \"title\": {\n                \"type\": \"string\"\n              },\n              \"body\": {\n                \"type\": \"string\"\n              },\n              \"labels\": {\n                \"type\": \"array\",\n                \"items\": {\n                  \"type\": \"string\"\n                }\n              },\n              \"assignee\": {\n                \"type\": \"string\"\n              }\n            }\n          }\n        },\n        \"follow_up_github_issue\": {\n          \"type\": \"array\",\n          \"description\": \"Existing issues that require a follow-up comment.\",\n          \"items\": {\n            \"type\": \"object\",\n            \"required\": [\n              \"issue_number\",\n              \"comment\"\n            ],\n            \"properties\": {\n              \"issue_number\": {\n                \"type\": \"integer\"\n              },\n              \"comment\": {\n                \"type\": \"string\"\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -464,
+        32
+      ],
+      "id": "1fad3d5a-b112-42fe-bd4f-239d5054ac93",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -448,
+        144
+      ],
+      "id": "b8dbacaf-413d-4094-946f-2229460329d2",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "1fjSF4AQTr66EKc3",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1024,
+        112
+      ],
+      "id": "bea1d45c-a6e3-4181-958d-c6ddd2a65dea",
+      "name": "Google Gemini Chat Model - Pro",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "1fjSF4AQTr66EKc3",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -864,
+        112
+      ],
+      "id": "8fd2c62b-5890-478f-9540-a35179d4a422",
+      "name": "Google Gemini Chat Model - Flash",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "1fjSF4AQTr66EKc3",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Plan",
+        "height": 560,
+        "width": 1072
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1088,
+        -272
+      ],
+      "typeVersion": 1,
+      "id": "2e7d81c4-c388-4739-ab8d-b20b0a7dc7fb",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=repo-id-{{ $json.id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        -704,
+        48
+      ],
+      "id": "9c5cc14f-02d1-44e7-9560-324fb0dbcaa1",
+      "name": "Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "L567D9TEFo7ESa08",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "endpointUrl": "https://api.githubcopilot.com/mcp/",
+        "authentication": "bearerAuth",
+        "include": "selected",
+        "includeTools": [
+          "create_issue",
+          "update_issue",
+          "add_issue_comment",
+          "get_issue_comments",
+          "list_issues",
+          "search_issues",
+          "search_code",
+          "reprioritize_sub_issue",
+          "remove_sub_issue",
+          "list_sub_issues",
+          "list_releases",
+          "list_pull_requests",
+          "list_discussions",
+          "add_sub_issue"
+        ],
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.2,
+      "position": [
+        576,
+        96
+      ],
+      "id": "71169888-cabd-4ce1-9485-abbff636768e",
+      "name": "GitHub MCP Client1",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "T0UhF4CDhEaFWmLy",
+          "name": "GitHub MCP - Bearer Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        128,
+        112
+      ],
+      "id": "1e71eaa0-2fd6-4375-8313-37dff917e883",
+      "name": "Google Gemini Chat Model - Pro1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "1fjSF4AQTr66EKc3",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        288,
+        112
+      ],
+      "id": "147ef809-0010-4f5a-a4df-1b2fe2514d89",
+      "name": "Google Gemini Chat Model - Flash1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "1fjSF4AQTr66EKc3",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Appy",
+        "height": 560,
+        "width": 736,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        64,
+        -272
+      ],
+      "typeVersion": 1,
+      "id": "44126abe-19b4-42b5-918a-b20e3922d8bc",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=repo-id-{{ $json.id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        432,
+        80
+      ],
+      "id": "5c34f5fe-98a6-4158-9862-6d7e79147bf7",
+      "name": "Chat Memory1",
+      "credentials": {
+        "postgres": {
+          "id": "L567D9TEFo7ESa08",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=repo_url:  {{ $('Get a repository').item.json.html_url }}\n\nPlan to execute\n{{ $json.output.toJsonString() }}",
+        "hasOutputParser": true,
+        "needsFallback": true,
+        "options": {
+          "systemMessage": "=You are an **AI Action Executor**. Your sole purpose is to execute a given plan using the provided tools. You do **not** make decisions or analyze documents, those are provided by the previous agent.\n\n**Core Directive:**\n\n1.  **Ingest Plan:**\n\n      * You will receive a plan as a structured JSON object.\n\n2.  **Execute Actions:**\n\n      * Systematically process the tasks listed in the `actions` section of the input JSON.\n      * For each item in `update_github_project`, perform the necessary calls to update the project board.\n      * For each item in `create_github_issue`, perform calls to create a new issue.\n      * For each item in `follow_up_github_issue`, perform the calls to add a comment to the specified issue.\n\n3.  **Report Results:**\n\n      * After attempting all actions, provide a summary of your operations as your final output.",
+          "returnIntermediateSteps": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        384,
+        -128
+      ],
+      "id": "389ccb5e-fa6d-4590-835f-484c6adb0a5f",
+      "name": "AI Agent - Do"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=repo_url:  {{ $json.html_url }}",
+        "hasOutputParser": true,
+        "needsFallback": true,
+        "options": {
+          "systemMessage": "=You are an autonomous AI Project Manager. Your primary directive is to assess the current project status, identify next steps, and ensure forward momentum by managing tasks directly within the GitHub repository.\n\n## **Core Operational Loop**\n\nExecute the following steps sequentially:\n\n1.  **State Assessment:**\n    * Access the `/docs/` directory.\n    * **Review Design Documents:** Analyze the root design documents, specifically files matching the pattern `[0-9][0-9]-*.md` (e.g., `00-overview.md`, `01-architecture.md`). These documents represent the project's intended state.\n    * **Review Summaries:** Analyze all agent progress reports located in `/docs/agents-summaries/`. These summaries represent the project's actual current state.\n\n2.  **Analysis and Task Identification:**\n    * Compare the project's actual state (from agent summaries) with the intended state (from design documents).\n    * Identify key discrepancies, completed milestones, and critical next actions required to align the project with its design goals.\n\n3.  **GitHub Action & Management:**\n    * **Update Project:** Reflect your findings on the main GitHub project board. Move tasks, update statuses, or add relevant notes.\n    * **Create Issues:** For any new, important, or follow-up tasks you identified, create a new GitHub issue. Ensure the issue title is clear and the body contains sufficient context for resolution.\n    * **Follow-Up:** Review all currently open issues. If an issue has seen no recent activity or is blocked, add a comment to prompt for an update or offer assistance.\n\nYes, you should include the example in your system prompt.\n\nIncluding a JSON structure example is the most reliable way to ensure the AI's output is consistently formatted, which is crucial for your n8n workflow to parse it correctly.\n\nAdd a section to your prompt like this:\n\n## **Output Format**\n\nYou MUST respond ONLY with a JSON object matching this exact structure. Do not add any text outside the JSON block.\n\n```json\n{\n  \"assessment\": {\n    \"timestamp\": \"YYYY-MM-DDTHH:MM:SSZ\",\n    \"status\": \"<complete|error>\",\n    \"summary\": \"<summary text>\",\n    \"reviewed_documents\": [\"<path>\"],\n    \"reviewed_summaries\": [\"<path>\"]\n  },\n  \"actions\": {\n    \"update_github_project\": [\n      {\n        \"task_id\": \"<task_identifier>\",\n        \"new_status\": \"<status>\",\n        \"comment\": \"<comment text>\"\n      }\n    ],\n    \"create_github_issue\": [\n      {\n        \"title\": \"<issue title>\",\n        \"body\": \"<issue body>\",\n        \"labels\": [\"<label>\"],\n        \"assignee\": \"<username>\"\n      }\n    ],\n    \"follow_up_github_issue\": [\n      {\n        \"issue_number\": 123,\n        \"comment\": \"<comment text>\"\n      }\n    ]\n  }\n}\n```",
+          "returnIntermediateSteps": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -768,
+        -128
+      ],
+      "id": "484abc9c-b64f-4159-af57-779d4c61b97f",
+      "name": "AI Agent - Plan"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-10-09T13:18:54.853Z",
+      "updatedAt": "2025-10-09T13:18:54.853Z",
+      "role": "workflow:owner",
+      "workflowId": "9NxJVrGSVPqntguB",
+      "projectId": "pEasCL2U1IIauWlx"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-10-09T16:03:03.000Z",
+  "versionId": "0fe08a9f-c9c0-4dc0-9eec-0fada43cd17b"
+}
