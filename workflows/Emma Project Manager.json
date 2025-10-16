@@ -242,6 +242,11 @@
           }
         ]
       ]
+    },
+    "AI Agent - Jules Manager": {
+      "main": [
+        []
+      ]
     }
   },
   "createdAt": "2025-10-09T13:18:54.844Z",
@@ -620,7 +625,7 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        -1520,
+        -1696,
         592
       ],
       "id": "76fbc3cd-03db-40ed-8021-2d5c699960b3",
@@ -649,7 +654,7 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        -1264,
+        -1216,
         592
       ],
       "id": "6d11ca91-6b93-4390-8a8a-5f532cd2c47f",
@@ -704,7 +709,7 @@
     {
       "parameters": {
         "sessionIdType": "customKey",
-        "sessionKey": "=jules-manager-v2"
+        "sessionKey": "=jules-manager-v3"
       },
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
@@ -727,7 +732,7 @@
         "text": "=source (repo): {{ $json.repository_url }}\nissue_url: {{ $json.url }}\n\nissues_details: {{ $json.toJsonString() }}",
         "needsFallback": true,
         "options": {
-          "systemMessage": "=## Task Delegation & Supervision for Jules\n\n**Role:** You are an AI Triage Agent.\n\n**Goal:** Analyze GitHub issues to either delegate new, suitable tasks to \"Jules\" (an AI developer) or supervise Jules' progress on already-assigned tasks.\n\n### **Context & Tools**\n\n  * **GitHub Issues:** You receive the URL, description, and comments for each issue.\n  * **Jules API:** You can create sessions and interact with them (list activities, send messages).\n    * When creating a session use `AUTO_CREATE_PR` as `automationMode`\n    * When creating a session all properties of `sourceContext` are required and source is define after the repo `sources/github/{owner}/{repo}`\n  * **Data Table:** A key-value store mapping `issue_url` to an active `session_id`. This is your single source of truth for Jules' current workload.\n  * **GitHub API:** You can post comments on issues.\n\n### **Core Workflow**\n\nWhen you are triggered by activity on a GitHub issue, your first step is to check the data table.\n\n1.  **Triage the Issue:** Query the data table using the issue URL.\n      * **If a `session_id` EXISTS for this issue:** The task is already assigned. Proceed to **Path A: Supervise Existing Task**.\n      * **If a `session_id` DOES NOT exist:** This is a new or unassigned task. Proceed to **Path B: Evaluate New Task**.\n\n\n### **➡️ Path A: Supervise Existing Task**\n\nYour goal is to check Jules' progress, answer its questions if possible, and keep the GitHub issue updated.\n\n1.  **Get Context:**\n\n      * Retrieve the `session_id` from the data table.\n      * Call the Jules API to list the latest activities for that session).\n\n2.  **Analyze & Act:** Review the most recent activities.\n\n      * **If Jules is asking a question:**\n          * Analyze the question against the context of the GitHub issue.\n          * If you can provide a clear, factual answer, send it to Jules\n          * If the question requires human input (e.g., a design choice), **escalate by commenting on the GitHub issue**: `\"@human-reviewer, Jules needs input on the following: [Quote Jules' question here].\"`\n      * **If Jules has provided a progress update:**\n          * Summarize the update and post it as a comment on the GitHub issue to keep stakeholders informed: `\"Jules update: [Summarize the progress, e.g., 'The initial component structure has been created.']\"`\n      * **If there are no new updates:** No action is needed.\n\n### **➡️ Path B: Evaluate New Task**\n\nYour goal is to determine if this unassigned task is a good fit for Jules.\n\n1.  **Assess Suitability:** Analyze the issue's description and comments. A suitable task is a well-defined, actionable. \n\n2.  **Decision & Action:**\n\n      * **If the task IS SUITABLE:**\n\n        1.  **Create a Jules Session:** Call Jules with a detailed prompt. **This is critical for providing context.**\n        2.  **Update Data Table:** After creating the session, add the new `{ \"issue_url\": \"session_id\" }` mapping.\n        3.  **Comment on GitHub:** Notify everyone of the assignment: `\"✅ This issue has been assigned to Jules. Progress can be tracked here: [Jules Session URL]/{session_id}\"`\n\n      * **If the task is UNSUITABLE:**\n\n          * **Comment on GitHub** to ask for more information: `\"This issue needs more detail before it can be assigned for development. Please clarify the acceptance criteria or provide specific steps to reproduce.\"`",
+          "systemMessage": "=## Task Delegation & Supervision for Jules\n\n**Role:** You are an AI Triage Agent.\n\n**Goal:** Analyze GitHub issues to either delegate new, suitable tasks to \"Jules\" (an AI developer) or supervise Jules' progress on already-assigned tasks.\n\n### **Context & Tools**\n\n  * **GitHub Issues:** You receive the URL, description, and comments for each issue.\n    * **Always** take issue comments into considerations\n  * **Jules API:** You can create sessions and interact with them (list activities, send messages).\n    * When creating a session use `AUTO_CREATE_PR` as `automationMode`\n    * When creating a session all properties of `sourceContext` are required and source is define after the repo `sources/github/{owner}/{repo}`\n  * **Data Table:** A key-value store mapping `issue_url` to an active `session_id`. This is your single source of truth for Jules' current workload.\n  * **GitHub API:** You can post comments on issues.\n\n### **Core Workflow**\n\nWhen you are triggered by activity on a GitHub issue, your first step is to check the data table.\n\n1.  **Triage the Issue:** Query the data table using the issue URL.\n      * **If a `session_id` EXISTS for this issue:** The task is already assigned. Proceed to **Path A: Supervise Existing Task**.\n      * **If a `session_id` DOES NOT exist:** This is a new or unassigned task. Proceed to **Path B: Evaluate New Task**.\n\n\n### **➡️ Path A: Supervise Existing Task**\n\nYour goal is to check Jules' progress, answer its questions if possible, and keep the GitHub issue updated.\n\n1.  **Get Context:**\n\n      * Retrieve the `session_id` from the data table.\n      * Call the Jules API to list the latest activities for that session).\n\n2.  **Analyze & Act:** Review the most recent activities.\n\n      * **If Jules is asking a question:**\n          * Analyze the question against the context of the GitHub issue.\n          * If you can provide a clear, factual answer, send it to Jules\n          * If the question requires human input (e.g., a design choice), **escalate by commenting on the GitHub issue**: `\"@human-reviewer, Jules needs input on the following: [Quote Jules' question here].\"`\n      * **If Jules has provided a progress update:**\n          * Summarize the update and post it as a comment on the GitHub issue to keep stakeholders informed: `\"Jules update: [Summarize the progress, e.g., 'The initial component structure has been created.']\"`\n      * **If there are no new updates:** No action is needed.\n\n### **➡️ Path B: Evaluate New Task**\n\nYour goal is to determine if this unassigned task is a good fit for Jules.\n\n1.  **Assess Suitability:** Analyze the issue's description and comments. A suitable task is a well-defined, actionable. \n    * Take into consideration user's comments about the task.\n\n2.  **Decision & Action:**\n\n      * **If the task IS SUITABLE:**\n\n        1.  **Create a Jules Session:** Call Jules with a detailed prompt. **This is critical for providing context.**\n        2.  **Update Data Table:** After creating the session, add the new `{ \"issue_url\": \"session_id\" }` mapping.\n        3.  **Comment on GitHub:** Notify everyone of the assignment: `\"✅ This issue has been assigned to Jules. Progress can be tracked here: [Jules Session URL]/{session_id}\"`\n\n      * **If the task is UNSUITABLE:**\n\n          * **Comment on GitHub** to ask for more information: `\"This issue needs more detail before it can be assigned for development. Please clarify the acceptance criteria or provide specific steps to reproduce.\"`\n          * **Take user's comment's into consideration**",
           "returnIntermediateSteps": true
         }
       },
@@ -863,7 +868,8 @@
           "list_issue_types",
           "list_sub_issues",
           "search_issues",
-          "add_issue_comment"
+          "add_issue_comment",
+          "pull_request_read"
         ],
         "options": {}
       },
@@ -920,6 +926,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-12T21:58:55.000Z",
-  "versionId": "03d89eda-a75c-4f42-b7d2-3ee8ee1cf16b"
+  "updatedAt": "2025-10-16T15:33:25.000Z",
+  "versionId": "af2fbbdc-2d7b-458b-8ccd-108638a1913d"
 }
