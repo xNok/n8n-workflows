@@ -1,0 +1,514 @@
+{
+  "active": false,
+  "connections": {
+    "Google Gemini Chat Model - Pro2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent - Jules Manager",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model - Flash2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent - Jules Manager",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Chat Memory2": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent - Jules Manager",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in Data table": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent - Jules Manager",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upsert row(s) in Data table": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent - Jules Manager",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub MCP Client2": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent - Jules Manager",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Jules MCP Client": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent - Jules Manager",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent - Jules Manager": {
+      "main": [
+        []
+      ]
+    },
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Get a repository",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a repository": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Agent - Jules Manager",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-10-16T19:42:44.507Z",
+  "id": "Pb3SG6xZGZmshi9T",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Emma Task Assignment",
+  "nodes": [
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=jules-manager-v3"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        560,
+        144
+      ],
+      "id": "a0da2774-12e6-4b59-8a26-c8359957afed",
+      "name": "Chat Memory2",
+      "credentials": {
+        "postgres": {
+          "id": "L567D9TEFo7ESa08",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "iDJ9nN7jNwdWtqQq",
+          "mode": "list",
+          "cachedResultName": "Jules Activity Tracking",
+          "cachedResultUrl": "/projects/pEasCL2U1IIauWlx/datatables/iDJ9nN7jNwdWtqQq"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "issueURL",
+              "keyValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('conditions1_Value', ``, 'string') }}"
+            }
+          ]
+        },
+        "returnAll": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Return_All', ``, 'boolean') }}"
+      },
+      "type": "n8n-nodes-base.dataTableTool",
+      "typeVersion": 1,
+      "position": [
+        768,
+        144
+      ],
+      "id": "f72925b7-5998-43e2-b6ff-f825e9d1802f",
+      "name": "Get row(s) in Data table"
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "dataTableId": {
+          "__rl": true,
+          "value": "iDJ9nN7jNwdWtqQq",
+          "mode": "list",
+          "cachedResultName": "Jules Activity Tracking",
+          "cachedResultUrl": "/projects/pEasCL2U1IIauWlx/datatables/iDJ9nN7jNwdWtqQq"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "issueURL",
+              "keyValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('conditions0_Value', ``, 'string') }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Completed": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Completed', ``, 'boolean') }}",
+            "issueURL": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('issueURL', ``, 'string') }}",
+            "repositoryURL": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('repositoryURL', ``, 'string') }}",
+            "sessionID": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('sessionID', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "sessionID",
+              "displayName": "sessionID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "repositoryURL",
+              "displayName": "repositoryURL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "issueURL",
+              "displayName": "issueURL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Completed",
+              "displayName": "Completed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "n8n-nodes-base.dataTableTool",
+      "typeVersion": 1,
+      "position": [
+        912,
+        144
+      ],
+      "id": "2b4babab-95ed-49e1-b559-da3062176d71",
+      "name": "Upsert row(s) in Data table"
+    },
+    {
+      "parameters": {
+        "endpointUrl": "https://api.githubcopilot.com/mcp/",
+        "authentication": "bearerAuth",
+        "include": "selected",
+        "includeTools": [
+          "get_issue",
+          "get_issue_comments",
+          "list_issues",
+          "list_issue_types",
+          "list_sub_issues",
+          "search_issues",
+          "add_issue_comment",
+          "pull_request_read"
+        ],
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.2,
+      "position": [
+        1248,
+        144
+      ],
+      "id": "3d635bfb-a0b3-4520-8fb3-be80600e4747",
+      "name": "GitHub MCP Client2",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "T0UhF4CDhEaFWmLy",
+          "name": "GitHub MCP - Bearer Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "endpointUrl": "http://mcphub_mcphub:3000/mcp/jules-mcp",
+        "authentication": "bearerAuth",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.2,
+      "position": [
+        1072,
+        144
+      ],
+      "id": "fbfe4fb1-4dda-4662-9fdf-3d57bbdaf870",
+      "name": "Jules MCP Client",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "HFPSSgOojfCADypv",
+          "name": "MCPHUB Bearer Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        240,
+        128
+      ],
+      "id": "6b16185b-6c23-4e05-928b-94ee24332051",
+      "name": "Google Gemini Chat Model - Pro2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "1fjSF4AQTr66EKc3",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        400,
+        128
+      ],
+      "id": "7191a199-9ed3-46b8-9b4d-b832578f7cd9",
+      "name": "Google Gemini Chat Model - Flash2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "1fjSF4AQTr66EKc3",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=source (repo): {{ $json.chatInput }}\n\nHere are recent update about the project, should any tasks be assigned to Jules?\n\n{{ $json.chatInput }}",
+        "needsFallback": true,
+        "options": {
+          "systemMessage": "=## Task Delegation & Supervision for Jules\n\n**Role:** You are an AI Triage Agent.\n\n**Goal:** Analyze GitHub issues to either delegate new, suitable tasks to \"Jules\" (an AI developer) or supervise Jules' progress on already-assigned tasks.\n\n### **Context & Tools**\n\n  * **GitHub Issues:** You receive the URL of a repo, from which you can retrieve comments\n    * **Always** take issue comments into considerations\n  * **Jules API:** You can create sessions and interact with them (list activities, send messages).\n    * When creating a session use `AUTO_CREATE_PR` as `automationMode`\n    * When creating a session all properties of `sourceContext` are required and source is define after the repo `sources/github/{owner}/{repo}`\n  * **Data Table:** A key-value store mapping `issue_url` to an active `session_id`. This is your single source of truth for Jules' current workload.\n  * **GitHub API:** You can post comments on issues.\n\n### **Core Workflow**\n\nWhen you are triggered by activity about a GitHub issue, your first step is to check the data table.\n\n1.  **Triage the Issue:** Query the data table using the issue URL.\n      * **If a `session_id` EXISTS for this issue:** The task is already assigned. Proceed to **Path A: Supervise Existing Task**.\n      * **If a `session_id` DOES NOT exist:** This is a new or unassigned task. Proceed to **Path B: Evaluate New Task**.\n\n\n### **➡️ Path A: Supervise Existing Task**\n\nYour goal is to check Jules' progress, answer its questions if possible, and keep the GitHub issue updated.\n\n1.  **Get Context:**\n\n      * Retrieve the `session_id` from the data table.\n      * Call the Jules API to list the latest activities for that session).\n\n2.  **Analyze & Act:** Review the most recent activities.\n\n      * **If Jules is asking a question:**\n          * Analyze the question against the context of the GitHub issue.\n          * If you can provide a clear, factual answer, send it to Jules\n          * If the question requires human input (e.g., a design choice), **escalate by commenting on the GitHub issue**: `\"@human-reviewer, Jules needs input on the following: [Quote Jules' question here].\"`\n      * **If Jules has provided a progress update:**\n          * Summarize the update and post it as a comment on the GitHub issue to keep stakeholders informed: `\"Jules update: [Summarize the progress, e.g., 'The initial component structure has been created.']\"`\n      * **If there are no new updates:** No action is needed.\n\n### **➡️ Path B: Evaluate New Task**\n\nYour goal is to determine if this unassigned task is a good fit for Jules.\n\n1.  **Assess Suitability:** Analyze the issue's description and comments. A suitable task is a well-defined, actionable. \n    * Take into consideration user's comments about the task.\n\n2.  **Decision & Action:**\n\n      * **If the task IS SUITABLE:**\n\n        1.  **Create a Jules Session:** Call Jules with a detailed prompt. **This is critical for providing context.**\n        2.  **Update Data Table:** After creating the session, add the new `{ \"issue_url\": \"session_id\" }` mapping.\n        3.  **Comment on GitHub:** Notify everyone of the assignment: `\"✅ This issue has been assigned to Jules. Progress can be tracked here: [Jules Session URL]/{session_id}\"`\n\n      * **If the task is UNSUITABLE:**\n\n          * **Comment on GitHub** to ask for more information: `\"This issue needs more detail before it can be assigned for development. Please clarify the acceptance criteria or provide specific steps to reproduce.\"`\n          * **Take user's comment's into consideration**",
+          "returnIntermediateSteps": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        512,
+        -176
+      ],
+      "id": "4a392811-f7bf-4662-9d16-f2c78249812c",
+      "name": "AI Agent - Jules Manager"
+    },
+    {
+      "parameters": {
+        "content": "# Task Assignmnt",
+        "height": 592,
+        "width": 1376,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        144,
+        -304
+      ],
+      "typeVersion": 1,
+      "id": "872364d5-3660-4daf-a217-15cd4e2ad32f",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "repository_url",
+              "type": "any"
+            },
+            {
+              "name": "prompt"
+            }
+          ]
+        }
+      },
+      "id": "be505b81-4ad6-4ea0-8e3e-6077d3c36b65",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        -736,
+        -80
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -736,
+        -320
+      ],
+      "id": "9f1f1922-e197-4b17-9d08-435eb120b7d5",
+      "name": "When chat message received",
+      "webhookId": "686efe1a-d6fb-4747-9cff-a635d490f5b5"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "repository",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "xnok",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "emma",
+          "mode": "name"
+        }
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        -400,
+        -320
+      ],
+      "id": "c8a746ad-4da5-4cba-8b0d-eb515bec39c0",
+      "name": "Get a repository",
+      "webhookId": "8f8a9f61-3017-402a-9b14-4a6b03e6b426",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "3UvuWq60yLsVEaPS",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "eccf6b9b-44ad-4987-9fdd-5674012ec2c3",
+              "name": "chatInput",
+              "value": "={{ \n    $if($('Start').isExecuted, $('Start').item.json.prompt,\n$('When chat message received').item.json.chatInput) \n}}",
+              "type": "string"
+            },
+            {
+              "id": "1fd6ec0e-5626-4d00-94fc-078d180d7c58",
+              "name": "html_url",
+              "value": "={{ \n    $if($('Start').isExecuted, $('Start').item.json.repository_url,\n$('Get a repository').item.json.html_url) \n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -96,
+        -176
+      ],
+      "id": "6189514e-0ff2-40b4-8d84-b42230243b55",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-10-16T19:42:44.517Z",
+      "updatedAt": "2025-10-16T19:42:44.517Z",
+      "role": "workflow:owner",
+      "workflowId": "Pb3SG6xZGZmshi9T",
+      "projectId": "pEasCL2U1IIauWlx"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-10-16T20:39:15.000Z",
+  "versionId": "9a1cd979-f0bf-491e-ba8a-60a0d2b04ddf"
+}
