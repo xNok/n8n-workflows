@@ -144,108 +144,26 @@
         ]
       ]
     },
-    "Schedule Trigger1": {
+    "When chat message received": {
       "main": [
         [
           {
-            "node": "Get issues of a repository",
+            "node": "Get a repository",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Get issues of a repository": {
+    "AI Agent - Do": {
       "main": [
         [
           {
-            "node": "AI Agent - Jules Manager",
+            "node": "Call Emma Task Assignment",
             "type": "main",
             "index": 0
           }
         ]
-      ]
-    },
-    "Google Gemini Chat Model - Pro2": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent - Jules Manager",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Google Gemini Chat Model - Flash2": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent - Jules Manager",
-            "type": "ai_languageModel",
-            "index": 1
-          }
-        ]
-      ]
-    },
-    "Chat Memory2": {
-      "ai_memory": [
-        [
-          {
-            "node": "AI Agent - Jules Manager",
-            "type": "ai_memory",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get row(s) in Data table": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Agent - Jules Manager",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Upsert row(s) in Data table": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Agent - Jules Manager",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "GitHub MCP Client2": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Agent - Jules Manager",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Jules MCP Client": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Agent - Jules Manager",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "AI Agent - Jules Manager": {
-      "main": [
-        []
       ]
     }
   },
@@ -268,8 +186,8 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        -1536,
-        -128
+        -2464,
+        -320
       ],
       "id": "fb7db757-986c-4a7f-b1c2-f86e01aeaed3",
       "name": "Schedule Trigger"
@@ -295,8 +213,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        -1328,
-        -128
+        -2064,
+        -160
       ],
       "id": "7ea3a12b-8719-4294-9434-2be6b4448de3",
       "name": "Get a repository",
@@ -341,8 +259,8 @@
       "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
       "typeVersion": 1.2,
       "position": [
-        -576,
-        48
+        -1312,
+        16
       ],
       "id": "40e3fd16-cf1a-43c6-92ba-29163288289e",
       "name": "GitHub MCP Client",
@@ -362,8 +280,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        -464,
-        32
+        -1200,
+        0
       ],
       "id": "1fad3d5a-b112-42fe-bd4f-239d5054ac93",
       "name": "Structured Output Parser"
@@ -375,8 +293,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -448,
-        144
+        -1184,
+        112
       ],
       "id": "b8dbacaf-413d-4094-946f-2229460329d2",
       "name": "Google Gemini Chat Model1",
@@ -395,8 +313,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -1024,
-        112
+        -1760,
+        80
       ],
       "id": "bea1d45c-a6e3-4181-958d-c6ddd2a65dea",
       "name": "Google Gemini Chat Model - Pro",
@@ -414,8 +332,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -864,
-        112
+        -1600,
+        80
       ],
       "id": "8fd2c62b-5890-478f-9540-a35179d4a422",
       "name": "Google Gemini Chat Model - Flash",
@@ -434,8 +352,8 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -1088,
-        -272
+        -1824,
+        -304
       ],
       "typeVersion": 1,
       "id": "2e7d81c4-c388-4739-ab8d-b20b0a7dc7fb",
@@ -449,8 +367,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
       "position": [
-        -704,
-        48
+        -1440,
+        16
       ],
       "id": "9c5cc14f-02d1-44e7-9560-324fb0dbcaa1",
       "name": "Chat Memory",
@@ -487,8 +405,8 @@
       "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
       "typeVersion": 1.2,
       "position": [
-        576,
-        96
+        -160,
+        64
       ],
       "id": "71169888-cabd-4ce1-9485-abbff636768e",
       "name": "GitHub MCP Client1",
@@ -507,8 +425,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        128,
-        112
+        -608,
+        80
       ],
       "id": "1e71eaa0-2fd6-4375-8313-37dff917e883",
       "name": "Google Gemini Chat Model - Pro1",
@@ -526,8 +444,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        288,
-        112
+        -448,
+        80
       ],
       "id": "147ef809-0010-4f5a-a4df-1b2fe2514d89",
       "name": "Google Gemini Chat Model - Flash1",
@@ -547,8 +465,8 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        64,
-        -272
+        -672,
+        -304
       ],
       "typeVersion": 1,
       "id": "44126abe-19b4-42b5-918a-b20e3922d8bc",
@@ -562,8 +480,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
       "position": [
-        432,
-        80
+        -304,
+        48
       ],
       "id": "5c34f5fe-98a6-4158-9862-6d7e79147bf7",
       "name": "Chat Memory1",
@@ -581,15 +499,15 @@
         "hasOutputParser": true,
         "needsFallback": true,
         "options": {
-          "systemMessage": "=You are an **AI Action Executor**. Your sole purpose is to execute a given plan using the provided tools. You do **not** make decisions or analyze documents, those are provided by the previous agent.\n\n**Core Directive:**\n\n1.  **Ingest Plan:**\n\n      * You will receive a plan as a structured JSON object.\n\n2.  **Execute Actions:**\n\n      * Systematically process the tasks listed in the `actions` section of the input JSON.\n      * For each item in `update_github_project`, perform the necessary calls to update the project board.\n      * For each item in `create_github_issue`, perform calls to create a new issue.\n      * For each item in `follow_up_github_issue`, perform the calls to add a comment to the specified issue.\n\n3.  **Report Results:**\n\n      * After attempting all actions, provide a summary of your operations as your final output.",
+          "systemMessage": "=You are an **AI Action Executor**. Your sole purpose is to execute a given plan using the provided tools. You do **not** make decisions or analyze documents, those are provided by the previous agent.\n\n**Core Directive:**\n\n1.  **Ingest Plan:**\n\n      * You will receive a plan as a structured JSON object.\n\n2.  **Execute Actions:**\n\n      * Systematically process the tasks listed in the `actions` section of the input JSON.\n      * For each item in `update_github_project`, perform the necessary calls to update the project board.\n      * For each item in `create_github_issue`, perform calls to create a new issue.\n      * For each item in `follow_up_github_issue`, perform the calls to add a comment to the specified issue.\n\n3.  **Report Results:**\n\n      * After attempting all actions, provide a summary of your operations as your final output especially the url of updated issues, those issue will be sent to the agent manager to assignment",
           "returnIntermediateSteps": true
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        384,
-        -128
+        -464,
+        -160
       ],
       "id": "389ccb5e-fa6d-4590-835f-484c6adb0a5f",
       "name": "AI Agent - Do"
@@ -597,7 +515,7 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=repo_url:  {{ $json.html_url }}",
+        "text": "=repo_url:  {{ $json.html_url }}\n\nAdditional requirement from the user: {{ $if($('When chat message received').isExecuted, $('When chat message received').item.json.chatInput, \"NA\") }}\n",
         "hasOutputParser": true,
         "needsFallback": true,
         "options": {
@@ -608,306 +526,78 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        -768,
-        -128
+        -1504,
+        -160
       ],
       "id": "484abc9c-b64f-4159-af57-779d4c61b97f",
       "name": "AI Agent - Plan"
     },
     {
       "parameters": {
-        "rule": {
-          "interval": [
-            {}
-          ]
-        }
-      },
-      "type": "n8n-nodes-base.scheduleTrigger",
-      "typeVersion": 1.2,
-      "position": [
-        -1696,
-        592
-      ],
-      "id": "76fbc3cd-03db-40ed-8021-2d5c699960b3",
-      "name": "Schedule Trigger1"
-    },
-    {
-      "parameters": {
-        "authentication": "oAuth2",
-        "resource": "repository",
-        "owner": {
-          "__rl": true,
-          "value": "xnok",
-          "mode": "name"
-        },
-        "repository": {
-          "__rl": true,
-          "value": "emma",
-          "mode": "name"
-        },
-        "limit": 1,
-        "getRepositoryIssuesFilters": {
-          "sort": "created",
-          "direction": "asc"
-        }
-      },
-      "type": "n8n-nodes-base.github",
-      "typeVersion": 1.1,
-      "position": [
-        -1216,
-        592
-      ],
-      "id": "6d11ca91-6b93-4390-8a8a-5f532cd2c47f",
-      "name": "Get issues of a repository",
-      "webhookId": "1bf80512-ecc5-4bac-99e7-550ae2fa31d6",
-      "credentials": {
-        "githubOAuth2Api": {
-          "id": "3UvuWq60yLsVEaPS",
-          "name": "GitHub account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "modelName": "models/gemini-2.5-pro",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1,
-      "position": [
-        -992,
-        896
-      ],
-      "id": "6b16185b-6c23-4e05-928b-94ee24332051",
-      "name": "Google Gemini Chat Model - Pro2",
-      "credentials": {
-        "googlePalmApi": {
-          "id": "1fjSF4AQTr66EKc3",
-          "name": "Google Gemini(PaLM) Api account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1,
-      "position": [
-        -832,
-        896
-      ],
-      "id": "7191a199-9ed3-46b8-9b4d-b832578f7cd9",
-      "name": "Google Gemini Chat Model - Flash2",
-      "credentials": {
-        "googlePalmApi": {
-          "id": "1fjSF4AQTr66EKc3",
-          "name": "Google Gemini(PaLM) Api account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "sessionIdType": "customKey",
-        "sessionKey": "=jules-manager-v3"
-      },
-      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.3,
       "position": [
-        -672,
-        912
+        -2464,
+        16
       ],
-      "id": "a0da2774-12e6-4b59-8a26-c8359957afed",
-      "name": "Chat Memory2",
-      "credentials": {
-        "postgres": {
-          "id": "L567D9TEFo7ESa08",
-          "name": "Postgres account"
-        }
-      }
+      "id": "df3af251-da5f-42d3-9b88-f9ea72ee21df",
+      "name": "When chat message received",
+      "webhookId": "ed335cad-5c3e-4260-921a-4af976e6b1f7"
     },
     {
       "parameters": {
-        "promptType": "define",
-        "text": "=source (repo): {{ $json.repository_url }}\nissue_url: {{ $json.url }}\n\nissues_details: {{ $json.toJsonString() }}",
-        "needsFallback": true,
-        "options": {
-          "systemMessage": "=## Task Delegation & Supervision for Jules\n\n**Role:** You are an AI Triage Agent.\n\n**Goal:** Analyze GitHub issues to either delegate new, suitable tasks to \"Jules\" (an AI developer) or supervise Jules' progress on already-assigned tasks.\n\n### **Context & Tools**\n\n  * **GitHub Issues:** You receive the URL, description, and comments for each issue.\n    * **Always** take issue comments into considerations\n  * **Jules API:** You can create sessions and interact with them (list activities, send messages).\n    * When creating a session use `AUTO_CREATE_PR` as `automationMode`\n    * When creating a session all properties of `sourceContext` are required and source is define after the repo `sources/github/{owner}/{repo}`\n  * **Data Table:** A key-value store mapping `issue_url` to an active `session_id`. This is your single source of truth for Jules' current workload.\n  * **GitHub API:** You can post comments on issues.\n\n### **Core Workflow**\n\nWhen you are triggered by activity on a GitHub issue, your first step is to check the data table.\n\n1.  **Triage the Issue:** Query the data table using the issue URL.\n      * **If a `session_id` EXISTS for this issue:** The task is already assigned. Proceed to **Path A: Supervise Existing Task**.\n      * **If a `session_id` DOES NOT exist:** This is a new or unassigned task. Proceed to **Path B: Evaluate New Task**.\n\n\n### **➡️ Path A: Supervise Existing Task**\n\nYour goal is to check Jules' progress, answer its questions if possible, and keep the GitHub issue updated.\n\n1.  **Get Context:**\n\n      * Retrieve the `session_id` from the data table.\n      * Call the Jules API to list the latest activities for that session).\n\n2.  **Analyze & Act:** Review the most recent activities.\n\n      * **If Jules is asking a question:**\n          * Analyze the question against the context of the GitHub issue.\n          * If you can provide a clear, factual answer, send it to Jules\n          * If the question requires human input (e.g., a design choice), **escalate by commenting on the GitHub issue**: `\"@human-reviewer, Jules needs input on the following: [Quote Jules' question here].\"`\n      * **If Jules has provided a progress update:**\n          * Summarize the update and post it as a comment on the GitHub issue to keep stakeholders informed: `\"Jules update: [Summarize the progress, e.g., 'The initial component structure has been created.']\"`\n      * **If there are no new updates:** No action is needed.\n\n### **➡️ Path B: Evaluate New Task**\n\nYour goal is to determine if this unassigned task is a good fit for Jules.\n\n1.  **Assess Suitability:** Analyze the issue's description and comments. A suitable task is a well-defined, actionable. \n    * Take into consideration user's comments about the task.\n\n2.  **Decision & Action:**\n\n      * **If the task IS SUITABLE:**\n\n        1.  **Create a Jules Session:** Call Jules with a detailed prompt. **This is critical for providing context.**\n        2.  **Update Data Table:** After creating the session, add the new `{ \"issue_url\": \"session_id\" }` mapping.\n        3.  **Comment on GitHub:** Notify everyone of the assignment: `\"✅ This issue has been assigned to Jules. Progress can be tracked here: [Jules Session URL]/{session_id}\"`\n\n      * **If the task is UNSUITABLE:**\n\n          * **Comment on GitHub** to ask for more information: `\"This issue needs more detail before it can be assigned for development. Please clarify the acceptance criteria or provide specific steps to reproduce.\"`\n          * **Take user's comment's into consideration**",
-          "returnIntermediateSteps": true
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 2.2,
-      "position": [
-        -720,
-        592
-      ],
-      "id": "4a392811-f7bf-4662-9d16-f2c78249812c",
-      "name": "AI Agent - Jules Manager"
-    },
-    {
-      "parameters": {
-        "operation": "get",
-        "dataTableId": {
+        "workflowId": {
           "__rl": true,
-          "value": "iDJ9nN7jNwdWtqQq",
+          "value": "Pb3SG6xZGZmshi9T",
           "mode": "list",
-          "cachedResultName": "Jules Activity Tracking",
-          "cachedResultUrl": "/projects/pEasCL2U1IIauWlx/datatables/iDJ9nN7jNwdWtqQq"
+          "cachedResultUrl": "/workflow/Pb3SG6xZGZmshi9T",
+          "cachedResultName": "Emma Task Assignment"
         },
-        "filters": {
-          "conditions": [
-            {
-              "keyName": "issueURL",
-              "keyValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('conditions1_Value', ``, 'string') }}"
-            }
-          ]
-        },
-        "returnAll": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Return_All', ``, 'boolean') }}"
-      },
-      "type": "n8n-nodes-base.dataTableTool",
-      "typeVersion": 1,
-      "position": [
-        -464,
-        912
-      ],
-      "id": "f72925b7-5998-43e2-b6ff-f825e9d1802f",
-      "name": "Get row(s) in Data table"
-    },
-    {
-      "parameters": {
-        "operation": "upsert",
-        "dataTableId": {
-          "__rl": true,
-          "value": "iDJ9nN7jNwdWtqQq",
-          "mode": "list",
-          "cachedResultName": "Jules Activity Tracking",
-          "cachedResultUrl": "/projects/pEasCL2U1IIauWlx/datatables/iDJ9nN7jNwdWtqQq"
-        },
-        "filters": {
-          "conditions": [
-            {
-              "keyName": "issueURL",
-              "keyValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('conditions0_Value', ``, 'string') }}"
-            }
-          ]
-        },
-        "columns": {
+        "workflowInputs": {
           "mappingMode": "defineBelow",
           "value": {
-            "Completed": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Completed', ``, 'boolean') }}",
-            "issueURL": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('issueURL', ``, 'string') }}",
-            "repositoryURL": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('repositoryURL', ``, 'string') }}",
-            "sessionID": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('sessionID', ``, 'string') }}"
+            "prompt": "={{ $json.output }}",
+            "repository_url": "={{ $('Get a repository').item.json.owner.html_url }}"
           },
-          "matchingColumns": [],
+          "matchingColumns": [
+            "html_url"
+          ],
           "schema": [
             {
-              "id": "sessionID",
-              "displayName": "sessionID",
+              "id": "repository_url",
+              "displayName": "repository_url",
               "required": false,
               "defaultMatch": false,
               "display": true,
-              "type": "string",
-              "readOnly": false,
+              "canBeUsedToMatch": true,
               "removed": false
             },
             {
-              "id": "repositoryURL",
-              "displayName": "repositoryURL",
+              "id": "prompt",
+              "displayName": "prompt",
               "required": false,
               "defaultMatch": false,
               "display": true,
+              "canBeUsedToMatch": true,
               "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "issueURL",
-              "displayName": "issueURL",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "readOnly": false,
-              "removed": false
-            },
-            {
-              "id": "Completed",
-              "displayName": "Completed",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "boolean",
-              "readOnly": false,
               "removed": false
             }
           ],
           "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        }
-      },
-      "type": "n8n-nodes-base.dataTableTool",
-      "typeVersion": 1,
-      "position": [
-        -320,
-        912
-      ],
-      "id": "2b4babab-95ed-49e1-b559-da3062176d71",
-      "name": "Upsert row(s) in Data table"
-    },
-    {
-      "parameters": {
-        "endpointUrl": "https://api.githubcopilot.com/mcp/",
-        "authentication": "bearerAuth",
-        "include": "selected",
-        "includeTools": [
-          "get_issue",
-          "get_issue_comments",
-          "list_issues",
-          "list_issue_types",
-          "list_sub_issues",
-          "search_issues",
-          "add_issue_comment",
-          "pull_request_read"
-        ],
+          "convertFieldsToString": true
+        },
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        16,
-        912
+        224,
+        -160
       ],
-      "id": "3d635bfb-a0b3-4520-8fb3-be80600e4747",
-      "name": "GitHub MCP Client2",
-      "credentials": {
-        "httpBearerAuth": {
-          "id": "T0UhF4CDhEaFWmLy",
-          "name": "GitHub MCP - Bearer Auth"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "endpointUrl": "http://mcphub_mcphub:3000/mcp/jules-mcp",
-        "authentication": "bearerAuth",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
-      "typeVersion": 1.2,
-      "position": [
-        -160,
-        912
-      ],
-      "id": "fbfe4fb1-4dda-4662-9fdf-3d57bbdaf870",
-      "name": "Jules MCP Client",
-      "credentials": {
-        "httpBearerAuth": {
-          "id": "HFPSSgOojfCADypv",
-          "name": "MCPHUB Bearer Auth"
-        }
-      }
+      "name": "Call Emma Task Assignment",
+      "id": "3d6ab3d7-eb77-48c0-b5ca-9fdbcdb4a06b"
     }
   ],
   "pinData": {},
@@ -926,6 +616,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-16T15:33:25.000Z",
-  "versionId": "af2fbbdc-2d7b-458b-8ccd-108638a1913d"
+  "updatedAt": "2025-10-16T20:34:52.000Z",
+  "versionId": "02c2c358-38a5-4226-84cb-695c417d5148"
 }
