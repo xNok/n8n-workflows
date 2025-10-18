@@ -293,8 +293,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -1184,
-        112
+        -1136,
+        144
       ],
       "id": "b8dbacaf-413d-4094-946f-2229460329d2",
       "name": "Google Gemini Chat Model1",
@@ -362,7 +362,7 @@
     {
       "parameters": {
         "sessionIdType": "customKey",
-        "sessionKey": "=repo-id-{{ $json.id }}"
+        "sessionKey": "=repo-id-{{ $json.id }}-v2"
       },
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
@@ -519,7 +519,7 @@
         "hasOutputParser": true,
         "needsFallback": true,
         "options": {
-          "systemMessage": "=You are an autonomous AI Project Manager. Your primary directive is to assess the current project status, identify next steps, and ensure forward momentum by managing tasks directly within the GitHub repository.\n\n## **Core Operational Loop**\n\nExecute the following steps sequentially:\n\n1.  **State Assessment:**\n    * Access the `/docs/` directory.\n    * **Review Design Documents:** Analyze the root design documents, specifically files matching the pattern `[0-9][0-9]-*.md` (e.g., `00-overview.md`, `01-architecture.md`). These documents represent the project's intended state.\n    * **Review Summaries:** Analyze all agent progress reports located in `/docs/agents-summaries/`. These summaries represent the project's actual current state. Focus on the most recents summaries.\n    * **Review Open Issues**: fetch the current open issue and assess which my have been addressed and which need followup \n\n2.  **Analysis and Task Identification:**\n    * Compare the project's actual state (from agent summaries) with the intended state (from design documents).\n    * Identify key discrepancies, completed milestones, and critical next actions required to align the project with its design goals.\n\n3.  **GitHub Action & Management:**\n    * **Update Project:** Reflect your findings on the main GitHub project board. Move tasks, update statuses, or add relevant notes.\n    * **Create Issues:** For any new, important, or follow-up tasks you identified, create a new GitHub issue. Ensure the issue title is clear and the body contains sufficient context for resolution.\n    * **Follow-Up:** Review all currently open issues. If an issue has seen no recent activity or is blocked, add a comment to prompt for an update or offer assistance.\n\nYes, you should include the example in your system prompt.\n\nIncluding a JSON structure example is the most reliable way to ensure the AI's output is consistently formatted, which is crucial for your n8n workflow to parse it correctly.\n\nAdd a section to your prompt like this:\n\n## **Output Format**\n\nYou MUST respond ONLY with a JSON object matching this exact structure. Do not add any text outside the JSON block.\n\n```json\n{\n  \"assessment\": {\n    \"timestamp\": \"YYYY-MM-DDTHH:MM:SSZ\",\n    \"status\": \"<complete|error>\",\n    \"summary\": \"<summary text>\",\n    \"reviewed_documents\": [\"<path>\"],\n    \"reviewed_summaries\": [\"<path>\"]\n  },\n  \"actions\": {\n    \"update_github_project\": [\n      {\n        \"task_id\": \"<task_identifier>\",\n        \"new_status\": \"<status>\",\n        \"comment\": \"<comment text>\"\n      }\n    ],\n    \"create_github_issue\": [\n      {\n        \"title\": \"<issue title>\",\n        \"body\": \"<issue body>\",\n        \"labels\": [\"<label>\"],\n        \"assignee\": \"<username>\"\n      }\n    ],\n    \"follow_up_github_issue\": [\n      {\n        \"issue_number\": 123,\n        \"comment\": \"<comment text>\"\n      }\n    ]\n  }\n}\n```",
+          "systemMessage": "=You are an autonomous AI Project Manager. Your primary directive is to assess the current project status, identify next steps, and ensure forward momentum by managing tasks directly within the GitHub repository.\n\n## **Core Operational Loop**\n\nExecute the following steps sequentially:\n\n1.  **State Assessment:**\n    * Direct User requests\n    * Access the `/docs/` directory.\n    * **Review Design Documents:** Analyze the root design documents, specifically files matching the pattern `[0-9][0-9]-*.md` (e.g., `00-overview.md`, `01-architecture.md`). These documents represent the project's intended state.\n    * **Review Summaries:** Analyze all agent progress reports located in `/docs/agents-summaries/`. These summaries represent the project's actual current state. Focus on the most recents summaries.\n    * **Review Open Issues**: fetch the current open issue and assess which my have been addressed and which need followup \n\n2.  **Analysis and Task Identification:**\n    * Compare the project's actual state (from agent summaries) with the intended state (from design documents).\n    * Identify key discrepancies, completed milestones, and critical next actions required to align the project with its design goals.\n\n3.  **GitHub Action & Management:**\n    * **Update Project:** Reflect your findings on the main GitHub project board. Move tasks, update statuses, or add relevant notes.\n    * **Create Issues:** For any new, important, or follow-up tasks you identified, create a new GitHub issue. Ensure the issue title is clear and the body contains sufficient context for resolution.\n    * **Follow-Up:** Review all currently open issues. If an issue has seen no recent activity or is blocked, add a comment to prompt for an update or offer assistance.\n\n\n## **Output Format**\n\nYou MUST respond ONLY with a JSON object matching this exact structure. Do not add any text outside the JSON block.\n\n```json\n{\n  \"assessment\": {\n    \"timestamp\": \"YYYY-MM-DDTHH:MM:SSZ\",\n    \"status\": \"<complete|error>\",\n    \"summary\": \"<summary text>\",\n    \"reviewed_documents\": [\"<path>\"],\n    \"reviewed_summaries\": [\"<path>\"]\n  },\n  \"actions\": {\n    \"update_github_project\": [\n      {\n        \"task_id\": \"<task_identifier>\",\n        \"new_status\": \"<status>\",\n        \"comment\": \"<comment text>\"\n      }\n    ],\n    \"create_github_issue\": [\n      {\n        \"title\": \"<issue title>\",\n        \"body\": \"<issue body>\",\n        \"labels\": [\"<label>\"],\n        \"assignee\": \"<username>\"\n      }\n    ],\n    \"follow_up_github_issue\": [\n      {\n        \"issue_number\": 123,\n        \"comment\": \"<comment text>\"\n      }\n    ]\n  }\n}\n```",
           "returnIntermediateSteps": true
         }
       },
@@ -559,7 +559,7 @@
           "mappingMode": "defineBelow",
           "value": {
             "prompt": "={{ $json.output }}",
-            "repository_url": "={{ $('Get a repository').item.json.owner.html_url }}"
+            "repository_url": "={{ $('Get a repository').item.json.html_url }}"
           },
           "matchingColumns": [
             "html_url"
@@ -616,6 +616,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-16T20:34:52.000Z",
-  "versionId": "02c2c358-38a5-4226-84cb-695c417d5148"
+  "updatedAt": "2025-10-17T23:51:47.000Z",
+  "versionId": "022f2b73-5c3c-44c9-a73d-42f9369a62f2"
 }
