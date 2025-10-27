@@ -362,7 +362,7 @@
     {
       "parameters": {
         "sessionIdType": "customKey",
-        "sessionKey": "=repo-id-{{ $json.id }}-v2"
+        "sessionKey": "=repo-id-{{ $json.id }}-v3"
       },
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
@@ -616,6 +616,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-17T23:51:47.000Z",
-  "versionId": "022f2b73-5c3c-44c9-a73d-42f9369a62f2"
+  "updatedAt": "2025-10-26T23:47:08.000Z",
+  "versionId": "5f18a538-5c01-48ac-8bc0-8937b9b115b4"
 }
