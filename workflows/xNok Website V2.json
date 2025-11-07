@@ -678,8 +678,8 @@
   },
   "shared": [
     {
-      "createdAt": "2025-10-04T11:40:38.271Z",
       "updatedAt": "2025-10-04T11:40:38.271Z",
+      "createdAt": "2025-10-04T11:40:38.271Z",
       "role": "workflow:owner",
       "workflowId": "1i4mEOb6QVXhTbFn",
       "projectId": "pEasCL2U1IIauWlx"
@@ -690,7 +690,7 @@
       "recurrenceRules": []
     },
     "node:Notion Trigger": {
-      "lastTimeChecked": "2025-11-05T22:45:00.000Z"
+      "lastTimeChecked": "2025-11-06T23:00:00.000Z"
     }
   },
   "tags": [],
